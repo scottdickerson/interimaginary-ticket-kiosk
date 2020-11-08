@@ -1,0 +1,16 @@
+.question {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 80vh;
+}
+.question h2 {
+  padding: 0rem;
+  margin: 0rem;
+}
+.choices {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  height: 60%;
+  padding: 4rem 10rem;
+}

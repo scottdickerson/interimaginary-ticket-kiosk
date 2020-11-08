@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import styles from './PullScreen.module.css';
 
@@ -10,10 +11,12 @@ class PullScreen extends React.Component {
     onClick: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     resetDelay: PropTypes.number,
+    isVisible: PropTypes.bool,
   };
 
   static defaultProps = {
     resetDelay: 360000,
+    isVisible: true,
   };
 
   componentDidMount() {
@@ -27,9 +30,11 @@ class PullScreen extends React.Component {
   };
 
   render() {
-    const { children, onClick } = this.props;
+    const { children, onClick, isVisible } = this.props;
     return (
-      <div className={styles.pullScreen} onClick={onClick}>
+      <div
+        className={classnames(styles.pullScreen, { [styles.isVisible]: isVisible })}
+        onClick={onClick}>
         {children}
       </div>
     );

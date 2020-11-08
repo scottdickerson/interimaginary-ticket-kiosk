@@ -1,0 +1,24 @@
+.ticketSpinner {
+  display: flex;
+  flex-flow: column nowrap;
+  color: red;
+  align-items: center;
+}
+
+.ticketSpinner img {
+  animation: spin 3s infinite linear;
+  margin-top: 4rem;
+}
+
+.ticketText {
+  padding-top: 4rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

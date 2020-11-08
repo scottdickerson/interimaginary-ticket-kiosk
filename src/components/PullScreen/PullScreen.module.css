@@ -2,4 +2,9 @@
   cursor: pointer;
   position: absolute;
   z-index: 0; /* this is so any other page overrides it */
+  visibility: hidden;
+}
+
+.isVisible {
+  visibility: visible;
 }

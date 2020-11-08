@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
+import React from 'react';
+import { Route, Switch } from 'react-router';
+import { ROUTES } from './constants/constants';
+import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
+import TicketSurvey from './containers/TicketSurvey/TicketSurvey';
+import TicketSpinner from './containers/TicketSpinner/TicketSpinner';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className={styles.app}>
+      <TicketPullScreen />
+      <Switch>
+        <Route path={ROUTES.MAINSCREEN} component={TicketSurvey} />
+        <Route path={ROUTES.TICKETSPINNER} component={TicketSpinner} />
+      </Switch>
+    </section>
   );
 }
 
