@@ -3,3 +3,8 @@ export const ROUTES = {
   MAINSCREEN: '/main',
   TICKETSPINNER: '/ticket',
 };
+
+export const ANIMATION_STATES = {
+  PLAYING: 'PLAYING',
+  PAUSED: 'PAUSED',
+};
