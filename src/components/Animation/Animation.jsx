@@ -70,6 +70,8 @@ const Animation = ({
     // Need to adjust the elapsed timescale to address any pauses that may have occurred
     const elapsedAdjustedForPauses = elapsed - totalPauseTime.current;
 
+    // Using the elapsed adjusted for pauses so that we don't skip a frame,
+    // TODO Unfortunately, it doesn't actually advance the frame after the unpause until after several 'repauses' just need to fix that to get this to work
     const nextFrame = Math.floor(elapsedAdjustedForPauses / frameDelay) % frames.length;
 
     if (onNextFrame && isPlaying.current) {
@@ -79,17 +81,8 @@ const Animation = ({
 
     setCurrentFrame(currentFrame => {
       console.log(
-        `state: ${isPlaying.current} elapsed: ${elapsed} elapsedAdjusted: ${elapsedAdjustedForPauses} currentFrame: ${currentFrame} nextFrame: ${nextFrame}`
+        `isPlaying: ${isPlaying.current} elapsedAdjusted: ${elapsedAdjustedForPauses} frameDelay: ${frameDelay} currentFrame: ${currentFrame} nextFrame: ${nextFrame}`
       );
-
-      // If I've reached the end of an animation frame sequence I need to callback the onFinish
-      if (currentFrame >= frames.length - 1) {
-        // If they're listening to onFinished then listen
-        if (onFinished) {
-          onFinished();
-        }
-      }
-
       if (isPlaying.current) {
         window.requestAnimationFrame(determineFrame);
       }
@@ -108,6 +101,16 @@ const Animation = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
+
+  // If I've reached the end of an animation frame sequence I need to callback the onFinished
+  useEffect(() => {
+    if (currentFrame >= frames.length - 1) {
+      // If they're listening to onFinished then listen
+      if (onFinished) {
+        onFinished();
+      }
+    }
+  });
 
   return <img src={frames[currentFrame]} alt={alt} style={style} />;
 };
