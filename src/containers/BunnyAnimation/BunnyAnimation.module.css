@@ -1,9 +1,30 @@
 .bunnyAnimation {
   width: 100%;
   position: relative;
+  overflow: hidden;
 }
+.bunnyLeftSideBar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  z-index: 10;
+}
+
+.bunnyRightSideBar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  z-index: 10;
+}
+
 .bunnyAnimation img {
   position: absolute;
   bottom: 50px;
   left: 30px;
+  z-index: 5;
+  overflow: hidden;
 }

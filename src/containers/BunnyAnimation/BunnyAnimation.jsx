@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BunnyAnimation.module.css';
-import Frame01 from './img/Frame_01.jpg';
 import Frame02 from './img/Frame_02.jpg';
 import Frame03 from './img/Frame_03.jpg';
 import Frame04 from './img/Frame_04.jpg';
@@ -9,7 +8,7 @@ import Frame05 from './img/Frame_05.jpg';
 import Animation from '../../components/Animation/Animation';
 import { ANIMATION_STATES } from '../../constants/constants';
 
-const frames = [Frame01, Frame02, Frame03, Frame04, Frame05];
+const frames = [Frame02, Frame03, Frame04, Frame05];
 
 const propTypes = {
   /** total delay in milliseconds */
@@ -20,7 +19,7 @@ const propTypes = {
 
 const defaultProps = {
   totalDelay: 10000,
-  pauseTime: 2000,
+  pauseTime: 1000,
 };
 
 const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
@@ -29,7 +28,7 @@ const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
   const startTime = useRef();
   // keep track of how long I've been pausing
 
-  const maxPercentage = 80;
+  const maxPercentage = 100;
 
   /** calculates the new xOffset and updates state */
   const calculateXOffset = timestamp => {
@@ -39,9 +38,6 @@ const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
     }
     const elapsed = timestamp - startTime.current;
     const xOffsetPercentage = Math.min(elapsed / totalDelay, 1) * maxPercentage;
-    console.log(
-      `elapsed: ${elapsed}  totalDelay: ${totalDelay} updating x offset: ${xOffsetPercentage}`
-    );
     setXOffset(xOffsetPercentage);
     // Stop animating if we're past the total delay
     if (elapsed > totalDelay) {
@@ -69,16 +65,18 @@ const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
 
   return (
     <div className={styles.bunnyAnimation}>
+      <div className={styles.bunnyLeftSideBar}></div>
       <Animation
         alt="Bunny hopping"
         frames={frames}
         style={{ left: `${xOffset}%`, width: '200px' }}
         shouldLoop
-        frameDelay={300}
+        frameDelay={200}
         state={isPaused ? ANIMATION_STATES.PAUSED : ANIMATION_STATES.PLAYING}
         onFinished={handlePaused}
         onNextFrame={calculateXOffset}
       />
+      <div className={styles.bunnyRightSideBar}></div>
     </div>
   );
 };
