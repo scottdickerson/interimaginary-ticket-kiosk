@@ -1,6 +1,9 @@
 .bunnyAnimation {
   width: 100%;
   position: relative;
+  height: 40vh;
+  left: 0;
+  bottom: 0;
   overflow: hidden;
 }
 .bunnyLeftSideBar {
@@ -10,6 +13,7 @@
   width: 200px;
   height: 200px;
   z-index: 10;
+  background-color: black;
 }
 
 .bunnyRightSideBar {
@@ -19,6 +23,7 @@
   width: 200px;
   height: 200px;
   z-index: 10;
+  background-color: black;
 }
 
 .bunnyAnimation img {

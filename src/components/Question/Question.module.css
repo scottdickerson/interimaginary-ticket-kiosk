@@ -1,7 +1,8 @@
 .question {
   display: flex;
   flex-flow: column nowrap;
-  height: 80vh;
+  height: 100vh;
+  position: relative;
 }
 .question h2 {
   padding: 0rem;

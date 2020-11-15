@@ -5,7 +5,7 @@ import Frame02 from './img/Frame_02.jpg';
 import Frame03 from './img/Frame_03.jpg';
 import Frame04 from './img/Frame_04.jpg';
 import Frame05 from './img/Frame_05.jpg';
-import Animation from '../../components/Animation/Animation';
+import Animation from '../Animation/Animation';
 import { ANIMATION_STATES } from '../../constants/constants';
 
 const frames = [Frame02, Frame03, Frame04, Frame05];
@@ -15,20 +15,26 @@ const propTypes = {
   totalDelay: PropTypes.number,
   /** the maximum amount of time to pause between animations */
   pauseTime: PropTypes.number,
+  /** callback called once the animation has finished */
+  onFinished: PropTypes.func.isRequired,
+  /** has the animation started */
+  isStarted: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
   totalDelay: 10000,
   pauseTime: 1000,
+  isStarted: true,
 };
 
-const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
+/** handles the pause and total b */
+const BunnyProgressBar = ({ totalDelay, onFinished, pauseTime, isStarted }) => {
   const [xOffset, setXOffset] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const startTime = useRef();
   // keep track of how long I've been pausing
 
-  const maxPercentage = 100;
+  const maxPercentage = 88;
 
   /** calculates the new xOffset and updates state */
   const calculateXOffset = timestamp => {
@@ -66,21 +72,23 @@ const BunnyAnimation = ({ totalDelay, onFinished, pauseTime }) => {
   return (
     <div className={styles.bunnyAnimation}>
       <div className={styles.bunnyLeftSideBar}></div>
-      <Animation
-        alt="Bunny hopping"
-        frames={frames}
-        style={{ left: `${xOffset}%`, width: '200px' }}
-        shouldLoop
-        frameDelay={200}
-        state={isPaused ? ANIMATION_STATES.PAUSED : ANIMATION_STATES.PLAYING}
-        onFinished={handlePaused}
-        onNextFrame={calculateXOffset}
-      />
+      {isStarted ? (
+        <Animation
+          alt="Bunny hopping"
+          frames={frames}
+          style={{ left: `${xOffset}%`, width: '200px' }}
+          shouldLoop
+          frameDelay={200}
+          state={isPaused ? ANIMATION_STATES.PAUSED : ANIMATION_STATES.PLAYING}
+          onFinished={handlePaused}
+          onNextFrame={calculateXOffset}
+        />
+      ) : null}
       <div className={styles.bunnyRightSideBar}></div>
     </div>
   );
 };
 
-BunnyAnimation.propTypes = propTypes;
-BunnyAnimation.defaultProps = defaultProps;
-export default BunnyAnimation;
+BunnyProgressBar.propTypes = propTypes;
+BunnyProgressBar.defaultProps = defaultProps;
+export default BunnyProgressBar;

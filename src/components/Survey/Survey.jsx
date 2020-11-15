@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Survey.module.css';
 import Question from '../Question/Question';
+import back from './back.png';
+import close from './close.png';
 
 const propTypes = {
   /** an array of questions to ask */
@@ -21,6 +23,7 @@ const Survey = ({ questions, onSurveyFinished, onClose }) => {
     <div className={styles.survey}>
       <header className={styles.header}>
         <button
+          className={styles.surveyButton}
           onClick={() => {
             if (currentQuestion === 0) {
               onClose();
@@ -28,11 +31,14 @@ const Survey = ({ questions, onSurveyFinished, onClose }) => {
               setCurrentQuestion(question => question - 1);
             }
           }}>
-          back
+          <img height={40} src={back} alt="back" />
         </button>
-        <button onClick={() => onClose()}>close</button>
+        <button className={styles.surveyButton} onClick={() => onClose()}>
+          <img height={40} src={close} alt="close" />
+        </button>
       </header>
       <Question
+        className={styles.question}
         {...questions[currentQuestion]}
         onSelection={() => {
           if (currentQuestion !== questions.length - 1) {
