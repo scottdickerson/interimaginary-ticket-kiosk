@@ -107,6 +107,7 @@ const Animation = ({
         onFinished();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFrame]);
 
   return <img src={frames[currentFrame]} alt={alt} style={style} />;

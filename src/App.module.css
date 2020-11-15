@@ -7,6 +7,8 @@
   background-color: black;
   font-family: sans-serif;
   font-size: 24pt;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 /** every child page of the app should go full screen */
 .app > div {
@@ -17,6 +19,8 @@
 
 button:active {
   transition: all 0.4s ease-in-out;
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+button:focus {
   background-color: #8f1d3b;
 }

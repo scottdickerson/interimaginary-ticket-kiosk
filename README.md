@@ -1,5 +1,8 @@
 # Getting Started with Create React App
 
+`docker build -t interimaginary:kiosk .`
+`docker run -p 3000:80 interimaginary:kiosk`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
