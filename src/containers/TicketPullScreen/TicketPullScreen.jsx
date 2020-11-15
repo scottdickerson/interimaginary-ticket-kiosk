@@ -24,7 +24,9 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
         <h1 className={styles.title}>Hello...</h1>
         <p>You can receive a ticket here</p>
         <p>but first we have to ask you a few questions</p>
-        <button onClick={handleClick}>OK let's begin</button>
+        <button className={styles.button} onClick={handleClick}>
+          <p>OK</p> let's begin
+        </button>
       </div>
     </PullScreen>
   );

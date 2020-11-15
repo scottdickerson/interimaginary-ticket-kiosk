@@ -10,3 +10,19 @@
   text-transform: uppercase;
   font-size: 150px;
 }
+
+.button {
+  margin-top: 3rem;
+  border: 0;
+  background-color: #b32248;
+  color: white;
+  border-radius: 50%;
+  font-size: 28px;
+  height: 150px;
+  width: 150px;
+}
+.button p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.25rem;
+}

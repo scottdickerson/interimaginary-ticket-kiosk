@@ -14,6 +14,7 @@ const propTypes = {
 
 const Question = ({ question, questionLineTwo, choices, onSelection, className }) => {
   const [isProgressBarRunning, setIsProgressBarRunning] = useState(false);
+  const [selectedChoice, setSelectedChoice] = useState();
   // if the question changes reset the progress bar
   useEffect(() => {
     setIsProgressBarRunning(false);
@@ -24,7 +25,15 @@ const Question = ({ question, questionLineTwo, choices, onSelection, className }
       {questionLineTwo ? <h2>{questionLineTwo}</h2> : null}
       <div className={styles.choices}>
         {choices.map(choice => (
-          <Button onClick={() => setIsProgressBarRunning(true)}>{choice}</Button>
+          <Button
+            disabled={isProgressBarRunning && choice !== selectedChoice}
+            selected={choice === selectedChoice}
+            onClick={() => {
+              setSelectedChoice(choice);
+              setIsProgressBarRunning(true);
+            }}>
+            {choice}
+          </Button>
         ))}
       </div>
       <BunnyAnimation

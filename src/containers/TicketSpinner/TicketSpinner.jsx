@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 
 const TicketSpinner = ({ history }) => {
   useEffect(() => {
-    const timeout = setTimeout(() => history.push(ROUTES.PULLSCREEN), 10000);
+    const timeout = setTimeout(() => history.push(ROUTES.PULLSCREEN), 6000);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

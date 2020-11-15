@@ -5,3 +5,11 @@
   font-size: 28px;
   height: 60px;
 }
+
+.disabled {
+  pointer-events: none;
+}
+
+.selected {
+  outline: 5px auto -webkit-focus-ring-color;
+}
