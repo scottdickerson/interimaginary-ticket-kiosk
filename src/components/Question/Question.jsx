@@ -26,6 +26,7 @@ const Question = ({ question, questionLineTwo, choices, onSelection, className }
       <div className={styles.choices}>
         {choices.map(choice => (
           <Button
+            key={choice}
             disabled={isProgressBarRunning && choice !== selectedChoice}
             selected={choice === selectedChoice}
             onClick={() => {

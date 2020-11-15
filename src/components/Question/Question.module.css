@@ -11,7 +11,7 @@
 .choices {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 60%;
   padding: 4rem 10rem;
 }
