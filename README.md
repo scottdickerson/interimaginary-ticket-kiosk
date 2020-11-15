@@ -1,7 +1,15 @@
 # Getting Started with Create React App
 
+## Running in your local docker
+
 `docker build -t interimaginary:kiosk .`
 `docker run -p 3000:80 interimaginary:kiosk`
+
+## Deploying to heroku
+
+`heroku login`
+`git push heroku main`
+`heroku open`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
