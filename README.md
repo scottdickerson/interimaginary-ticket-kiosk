@@ -7,7 +7,6 @@
 
 ## Deploying to heroku (deploys the static app not the container)
 
-`yarn build`
 `heroku login`
 `git push heroku main`
 `heroku open`
