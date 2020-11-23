@@ -82,6 +82,11 @@ const Animation = ({
       if (isPlaying.current) {
         window.requestAnimationFrame(determineFrame);
       }
+      if (currentFrame !== nextFrame) {
+        console.log(
+          `timestamp: ${timestamp} currentFrame: ${currentFrame} nextFrame: ${nextFrame}`
+        );
+      }
       return currentFrame !== nextFrame ? nextFrame : currentFrame;
     });
   };
@@ -110,7 +115,14 @@ const Animation = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFrame]);
 
-  return <img src={frames[currentFrame]} alt={alt} style={style} />;
+  return frames.map((frame, index) => (
+    <img
+      key={`img-frame-${index}`}
+      src={frames[index]}
+      style={{ ...style, display: `${index === currentFrame ? 'inline-block' : 'none'}` }} // need to preload all images and only show the currentframe
+      alt={alt}
+    />
+  ));
 };
 
 Animation.propTypes = propTypes;

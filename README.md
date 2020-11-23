@@ -5,8 +5,9 @@
 `docker build -t interimaginary:kiosk .`
 `docker run -p 3000:80 interimaginary:kiosk`
 
-## Deploying to heroku
+## Deploying to heroku (deploys the static app not the container)
 
+`yarn build`
 `heroku login`
 `git push heroku main`
 `heroku open`
