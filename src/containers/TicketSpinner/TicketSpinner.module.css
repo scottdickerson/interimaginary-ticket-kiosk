@@ -1,12 +1,13 @@
 .ticketSpinner {
   display: flex;
   flex-flow: column nowrap;
-  color: red;
+  color: #b32248;
+  letter-spacing: 1px;
   align-items: center;
 }
 
 .ticketSpinner img {
-  animation: spin 3s infinite linear;
+  animation: spin 1s infinite linear;
   margin-top: 4rem;
 }
 

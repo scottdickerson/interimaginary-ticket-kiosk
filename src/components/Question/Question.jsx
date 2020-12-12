@@ -41,7 +41,7 @@ const Question = ({ question, questionLineTwo, choices, onSelection, className }
         key={question} /* bunny animation should reset every time the question changes */
         isStarted={isProgressBarRunning}
         onFinished={() => onSelection()}
-        totalDelay={3000}
+        totalDelay={2000}
       />
     </section>
   );
