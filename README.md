@@ -5,11 +5,18 @@
 `docker build -t interimaginary:kiosk .`
 `docker run -p 3000:80 interimaginary:kiosk`
 
+Opening the locally hosted URL on Docker
+<http://localhost>
+
 ## Deploying to heroku (deploys the static app not the container)
 
 `heroku login`
+`git remote add heroku https://git.heroku.com/limitless-forest-56616.git`
 `git push heroku main`
 `heroku open`
+
+To view the app directly:
+<https://limitless-forest-56616.herokuapp.com/>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
