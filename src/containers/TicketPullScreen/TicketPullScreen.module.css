@@ -2,17 +2,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  padding: 10rem 5rem 5rem;
+  padding: 0 5vw;
+}
+
+.description {
+  line-height: 8vh;
 }
 
 .title {
   text-transform: uppercase;
   font-size: 150px;
+  padding: 15vh 0 5vh;
 }
 
 .button {
-  margin-top: 3rem;
+  margin-top: 6vh;
   border: 0;
   background-color: #b32248;
   color: white;
@@ -20,6 +24,7 @@
   font-size: 32px;
   height: 200px;
   width: 200px;
+  line-height: 5vh;
 }
 .button p {
   margin-top: 0.25rem;

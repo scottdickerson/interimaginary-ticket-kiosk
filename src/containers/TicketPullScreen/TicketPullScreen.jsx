@@ -20,12 +20,15 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
       onReset={handleReset}
       resetDelay={resetDelay}
       isVisible={location?.pathname === ROUTES.PULLSCREEN}>
-      <div className={styles.pullScreen}>
+      <div className={styles.ticketPullScreen}>
         <h1 className={styles.title}>Hello...</h1>
-        <p>You can receive a ticket here</p>
-        <p>but first we have to ask you a few questions</p>
+        <p className={styles.description}>
+          You can receive a ticket here<br></br>
+          but first we have to ask you a few questions
+        </p>
         <button className={styles.button} onClick={handleClick}>
-          <p>OK</p> let's begin
+          OK
+          <br /> let's begin
         </button>
       </div>
     </PullScreen>
