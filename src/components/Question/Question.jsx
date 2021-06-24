@@ -30,8 +30,16 @@ const Question = ({
   }, [question]);
   return (
     <section className={classnames(styles.question, className)}>
-      <h2>{question}</h2>
-      {questionLineTwo ? <h2>{questionLineTwo}</h2> : null}
+      <h2>
+        {question}
+        {questionLineTwo ? (
+          <>
+            <br></br>
+            {questionLineTwo}
+          </>
+        ) : null}
+      </h2>
+
       {choices.length < 10 ? (
         <SimpleChoiceRenderer
           choices={choices}

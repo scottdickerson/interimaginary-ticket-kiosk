@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Question.module.css';
 import Button from '../Button/Button';
+import classNames from 'classnames';
 
 const propTypes = {
   choices: PropTypes.arrayOf(PropTypes.string),
@@ -23,7 +24,7 @@ const SimpleChoiceRenderer = ({
   shouldAnimateBunny,
 }) => {
   return (
-    <div className={styles.choices}>
+    <div className={classNames(styles.choices, styles.simpleChoices)}>
       {choices.map((choice, i) => (
         <Button
           key={`${choice}-${i}`}

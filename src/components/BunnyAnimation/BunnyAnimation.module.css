@@ -1,17 +1,19 @@
 .bunnyAnimation {
   width: 100%;
-  position: relative;
-  height: 40vh;
+  position: absolute;
+  height: 20vh;
   left: 0;
   bottom: 0;
   overflow: hidden;
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
 }
 .bunnyLeftSideBar {
   position: absolute;
   left: 0;
-  bottom: 0;
-  width: 200px;
-  height: 200px;
+  width: 10vw;
+  height: 20vh;
   z-index: 10;
   background-color: black;
 }
@@ -19,17 +21,16 @@
 .bunnyRightSideBar {
   position: absolute;
   right: 0;
-  bottom: 0;
-  width: 200px;
-  height: 200px;
+  width: 10vw;
+  height: 20vh;
   z-index: 10;
   background-color: black;
 }
 
 .bunnyAnimation img {
   position: absolute;
-  bottom: 50px;
   left: 30px;
+  bottom: 2vh;
   z-index: 5;
   overflow: hidden;
 }

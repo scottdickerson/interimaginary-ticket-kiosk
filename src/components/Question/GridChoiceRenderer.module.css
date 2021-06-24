@@ -1,14 +1,17 @@
 .gridChoices {
   display: grid;
   grid-template-columns: repeat(4, 21%);
-  grid-template-rows: repeat(5, 6vh);
+  grid-template-rows: repeat(5, 8vh);
   width: 80%;
   column-gap: 4vw;
-  row-gap: 4vh;
+  row-gap: 3vh;
+}
+.gridChoices button {
+  font-size: 4vh;
 }
 
 .gridContainer {
-  padding-top: 10vh;
+  padding-top: 2vh;
   width: 100%;
   display: flex;
   flex-flow: column;
