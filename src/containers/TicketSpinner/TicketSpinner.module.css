@@ -7,8 +7,11 @@
 }
 
 .ticketSpinner img {
-  animation: spin 1s infinite linear;
+  animation: spin 3s infinite linear;
   margin-top: 4rem;
+}
+.ticketSpinner h2 {
+  padding-top: 10vh;
 }
 
 .ticketText {

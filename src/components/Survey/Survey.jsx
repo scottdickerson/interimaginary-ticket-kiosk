@@ -14,9 +14,10 @@ const propTypes = {
   onSurveyFinished: PropTypes.func,
   /** Cancel the survey */
   onClose: PropTypes.func,
+  shouldAnimateBunny: PropTypes.bool,
 };
 
-const Survey = ({ questions, onSurveyFinished, onClose }) => {
+const Survey = ({ questions, onSurveyFinished, onClose, shouldAnimateBunny = true }) => {
   // keeps track of the current question
   const [currentQuestion, setCurrentQuestion] = useState(0);
   return (
@@ -39,6 +40,7 @@ const Survey = ({ questions, onSurveyFinished, onClose }) => {
       </header>
       <Question
         className={styles.question}
+        shouldAnimateBunny={shouldAnimateBunny}
         {...questions[currentQuestion]}
         onSelection={() => {
           if (currentQuestion !== questions.length - 1) {

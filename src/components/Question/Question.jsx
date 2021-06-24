@@ -10,9 +10,17 @@ const propTypes = {
   questionLineTwo: PropTypes.string,
   choices: PropTypes.arrayOf(PropTypes.string),
   onSelection: PropTypes.func,
+  shouldAnimateBunny: PropTypes.bool,
 };
 
-const Question = ({ question, questionLineTwo, choices, onSelection, className }) => {
+const Question = ({
+  question,
+  questionLineTwo,
+  choices,
+  onSelection,
+  className,
+  shouldAnimateBunny,
+}) => {
   const [isProgressBarRunning, setIsProgressBarRunning] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState();
   // if the question changes reset the progress bar
@@ -24,25 +32,30 @@ const Question = ({ question, questionLineTwo, choices, onSelection, className }
       <h2>{question}</h2>
       {questionLineTwo ? <h2>{questionLineTwo}</h2> : null}
       <div className={styles.choices}>
-        {choices.map(choice => (
+        {choices.map((choice, i) => (
           <Button
-            key={choice}
+            key={`${choice}-${i}`}
             disabled={isProgressBarRunning && choice !== selectedChoice}
             selected={choice === selectedChoice}
             onClick={() => {
               setSelectedChoice(choice);
               setIsProgressBarRunning(true);
+              if (!shouldAnimateBunny) {
+                onSelection();
+              }
             }}>
             {choice}
           </Button>
         ))}
       </div>
-      <BunnyAnimation
-        key={question} /* bunny animation should reset every time the question changes */
-        isStarted={isProgressBarRunning}
-        onFinished={() => onSelection()}
-        totalDelay={2000}
-      />
+      {shouldAnimateBunny ? (
+        <BunnyAnimation
+          key={question} /* bunny animation should reset every time the question changes */
+          isStarted={isProgressBarRunning}
+          onFinished={() => onSelection()}
+          totalDelay={2000}
+        />
+      ) : null}
     </section>
   );
 };
