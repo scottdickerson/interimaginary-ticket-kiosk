@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Question.module.css';
 import BunnyAnimation from '../BunnyAnimation/BunnyAnimation';
-import Button from '../Button/Button';
+import SimpleChoiceRenderer from './SimpleChoiceRenderer';
+import GridChoiceRenderer from './GridChoiceRenderer';
 import classnames from 'classnames';
 
 const propTypes = {
@@ -31,23 +32,26 @@ const Question = ({
     <section className={classnames(styles.question, className)}>
       <h2>{question}</h2>
       {questionLineTwo ? <h2>{questionLineTwo}</h2> : null}
-      <div className={styles.choices}>
-        {choices.map((choice, i) => (
-          <Button
-            key={`${choice}-${i}`}
-            disabled={isProgressBarRunning && choice !== selectedChoice}
-            selected={choice === selectedChoice}
-            onClick={() => {
-              setSelectedChoice(choice);
-              setIsProgressBarRunning(true);
-              if (!shouldAnimateBunny) {
-                onSelection();
-              }
-            }}>
-            {choice}
-          </Button>
-        ))}
-      </div>
+      {choices.length < 10 ? (
+        <SimpleChoiceRenderer
+          choices={choices}
+          isProgressBarRunning={isProgressBarRunning}
+          setIsProgressBarRunning={setIsProgressBarRunning}
+          selectedChoice={selectedChoice}
+          setSelectedChoice={setSelectedChoice}
+          onSelection={onSelection}
+          shouldAnimateBunny={shouldAnimateBunny}
+        />
+      ) : (
+        <GridChoiceRenderer
+          choices={choices}
+          isProgressBarRunning={isProgressBarRunning}
+          setIsProgressBarRunning={setIsProgressBarRunning}
+          selectedChoice={selectedChoice}
+          setSelectedChoice={setSelectedChoice}
+          onSelection={onSelection}
+          shouldAnimateBunny={shouldAnimateBunny}></GridChoiceRenderer>
+      )}
       {shouldAnimateBunny ? (
         <BunnyAnimation
           key={question} /* bunny animation should reset every time the question changes */

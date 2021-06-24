@@ -5,6 +5,8 @@ import MainScreen from '../../components/MainScreen/MainScreen';
 import { ROUTES } from '../../constants/constants';
 import { withRouter } from 'react-router';
 
+const TRAVELER_QUESTION_TYPE = 'TRAVELER_QUESTION_TYPE';
+
 const questions = [
   { question: 'What color is the number seven?', choices: ['red', 'green', 'blue'] },
   {
@@ -74,10 +76,75 @@ const questions = [
     questionLineTwo: 'from the future?',
     choices: [`yes`, `no`, `How did you find me?`],
   },
+  {
+    question: 'Choose one of these to accompany you:',
+    type: TRAVELER_QUESTION_TYPE,
+    choices: [
+      'centaur',
+      'djinn',
+      'elf',
+      'gnome',
+      'goblin',
+      'golem',
+      'gremlin',
+      'imp',
+      'minotaur',
+      'ogre',
+      'orc',
+      'pixie',
+      'siren',
+      'sorcerer',
+      'sphinx',
+      'sprite',
+      'troll',
+      'witch',
+      'wizard',
+      'yeti',
+    ],
+  },
+  {
+    question: 'Choose one of these to accompany you:',
+    type: TRAVELER_QUESTION_TYPE,
+    choices: [
+      'chimera',
+      'cyborg',
+      'cyclops',
+      'dragon',
+      'dybbuk',
+      'ghoul',
+      'gorgon',
+      'griffin',
+      'harpy',
+      'hydra',
+      'mermaid',
+      'phoenix',
+      'poltergeist',
+      'satyr',
+      'trickster',
+      'triffid',
+      'vampire',
+      'werewolf',
+      'wraith',
+      'zombie',
+    ],
+  },
 ];
 
 const TicketSurvey = ({ history }) => {
-  const selectedQuestions = useMemo(() => shuffle(questions).slice(0, 3), []);
+  const selectedQuestions = useMemo(
+    () => [
+      // select 5 non-traveler questions at random
+      ...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
+        0,
+        5
+      ), // then select 1 traveler questions at random
+      ...shuffle(questions.filter(question => question.type === TRAVELER_QUESTION_TYPE)).slice(
+        0,
+        1
+      ),
+    ],
+    []
+  );
   const handleClose = () => {
     history.push(ROUTES.PULLSCREEN);
   };

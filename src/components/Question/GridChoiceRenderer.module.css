@@ -1,0 +1,16 @@
+.gridChoices {
+  display: grid;
+  grid-template-columns: repeat(4, 21%);
+  grid-template-rows: repeat(5, 6vh);
+  width: 80%;
+  column-gap: 4vw;
+  row-gap: 4vh;
+}
+
+.gridContainer {
+  padding-top: 10vh;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
