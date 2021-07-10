@@ -28,7 +28,7 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
         </p>
         <button className={styles.button} onClick={handleClick}>
           OK
-          <br /> let's begin
+          <br /> let&prime;s begin
         </button>
       </div>
     </PullScreen>

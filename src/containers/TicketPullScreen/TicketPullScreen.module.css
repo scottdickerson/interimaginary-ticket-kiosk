@@ -2,29 +2,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 5vw;
+  padding: 0 48px;
 }
 
 .description {
-  line-height: 8vh;
+  line-height: 32px;
 }
 
 .title {
   text-transform: uppercase;
-  font-size: 150px;
-  padding: 15vh 0 5vh;
+  font-size: 140px;
+  padding: 100px 0 25px;
 }
 
 .button {
-  margin-top: 6vh;
+  margin-top: 48px;
   border: 0;
   background-color: #b32248;
   color: white;
   border-radius: 50%;
-  font-size: 32px;
-  height: 200px;
-  width: 200px;
-  line-height: 5vh;
+  font-size: 28px;
+  height: 145px;
+  width: 160px;
+  line-height: 32px;
 }
 .button p {
   margin-top: 0.25rem;

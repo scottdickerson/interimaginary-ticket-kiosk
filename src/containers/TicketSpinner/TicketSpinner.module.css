@@ -16,6 +16,7 @@
 
 .ticketText {
   padding-top: 4rem;
+  font-size: 48px;
 }
 
 @keyframes spin {

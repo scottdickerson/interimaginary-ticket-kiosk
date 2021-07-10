@@ -1,22 +1,27 @@
 .question {
   display: flex;
   flex-flow: column nowrap;
-  height: calc(100vh - 92px);
   position: relative;
-  justify-content: space-between;
-  padding-bottom: 20vh;
+  height: 600px;
 }
 .question h2 {
   padding: 0rem;
   margin: 0rem;
-  font-size: 7vh;
+  font-size: 40px;
 }
 .choices {
   display: flex;
   flex-flow: column nowrap;
-  height: 50%;
-  padding: 0vh 8vw 10vh;
+  position: absolute;
+  bottom: 130px;
+  max-width: 800px;
+  width: 800px;
+  align-items: center;
 }
 .simpleChoices button + button {
-  margin-top: 5vh;
+  margin-top: 30px;
+}
+
+.simpleChoices button {
+  width: 85%;
 }

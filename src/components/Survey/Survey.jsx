@@ -24,7 +24,7 @@ const Survey = ({ questions, onSurveyFinished, onClose, shouldAnimateBunny = tru
     <div className={styles.survey}>
       <header className={styles.header}>
         <button
-          className={styles.surveyButton}
+          className={styles.surveyBackButton}
           onClick={() => {
             if (currentQuestion === 0) {
               onClose();
@@ -32,7 +32,7 @@ const Survey = ({ questions, onSurveyFinished, onClose, shouldAnimateBunny = tru
               setCurrentQuestion(question => question - 1);
             }
           }}>
-          <img height={40} src={back} alt="back" />
+          <img height={28} src={back} alt="back" />
         </button>
         <button className={styles.surveyButton} onClick={() => onClose()}>
           <img height={40} src={close} alt="close" />

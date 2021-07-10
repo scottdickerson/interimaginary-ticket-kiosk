@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Question.module.css';
-import BunnyAnimation from '../BunnyAnimation/BunnyAnimation';
+import BunnyAnimationRedux from '../BunnyAnimationRedux/BunnyAnimationRedux';
 import SimpleChoiceRenderer from './SimpleChoiceRenderer';
 import GridChoiceRenderer from './GridChoiceRenderer';
 import classnames from 'classnames';
@@ -61,11 +61,10 @@ const Question = ({
           shouldAnimateBunny={shouldAnimateBunny}></GridChoiceRenderer>
       )}
       {shouldAnimateBunny ? (
-        <BunnyAnimation
-          key={question} /* bunny animation should reset every time the question changes */
+        <BunnyAnimationRedux
+          key={question}
           isStarted={isProgressBarRunning}
           onFinished={() => onSelection()}
-          totalDelay={2000}
         />
       ) : null}
     </section>

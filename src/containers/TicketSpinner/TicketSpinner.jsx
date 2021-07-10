@@ -13,8 +13,8 @@ const TicketSpinner = ({ history }) => {
   }, []);
   return (
     <div className={styles.ticketSpinner}>
-      <img width="500px" height="500px" src={bunnies} alt="Spinning bunnies" />
-      <h2 className={styles.ticketText}>Here's your ticket!</h2>
+      <img width="350px" height="350px" src={bunnies} alt="Spinning bunnies" />
+      <h2 className={styles.ticketText}>Here&prime;s your ticket!</h2>
     </div>
   );
 };

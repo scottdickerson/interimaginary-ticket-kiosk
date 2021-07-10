@@ -1,7 +1,6 @@
 .app {
-  min-height: 1024px;
-  height: 100vh;
-  width: 100%;
+  height: 600px;
+  width: 800px;
   text-align: center;
   color: white;
   background-color: black;
@@ -9,8 +8,8 @@
 }
 /** every child page of the app should go full screen */
 .app > div {
-  height: 100vh;
-  width: 100%;
+  height: 600px;
+  width: 800px;
   user-select: none;
 }
 
