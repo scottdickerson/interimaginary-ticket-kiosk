@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './TicketSpinner.module.css';
 import { ROUTES } from '../../constants/constants';
-//import bunnies from './img/Bunnies.jpg';
 import bunnies from './img/TransparentBunnies.png';
 import { withRouter } from 'react-router';
 
