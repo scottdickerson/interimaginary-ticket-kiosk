@@ -7,6 +7,7 @@ import TicketSurvey from './containers/TicketSurvey/TicketSurvey';
 import TicketSpinner from './containers/TicketSpinner/TicketSpinner';
 import { Helmet } from 'react-helmet';
 import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
+import font from './fonts/Palatino.otf';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <TicketPullScreen />
       <Helmet>
         <link rel="preload" as="image" href={bunnies} />
+        <link rel="preload" as="font" href={font} />
       </Helmet>
       <Switch>
         <Route path={ROUTES.MAINSCREEN} component={TicketSurvey} />
