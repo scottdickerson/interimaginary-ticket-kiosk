@@ -136,12 +136,13 @@ const TicketSurvey = ({ history }) => {
       // select 5 non-traveler questions at random
       ...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
         0,
-        5
-      ), // then select 1 traveler questions at random
-      ...shuffle(questions.filter(question => question.type === TRAVELER_QUESTION_TYPE)).slice(
-        0,
-        1
+        6
       ),
+      // ), // then select 1 traveler questions at random
+      // ...shuffle(questions.filter(question => question.type === TRAVELER_QUESTION_TYPE)).slice(
+      //   0,
+      //   1
+      // ),
     ],
     []
   );
@@ -154,6 +155,7 @@ const TicketSurvey = ({ history }) => {
   return (
     <MainScreen>
       <Survey
+        key={JSON.stringify(selectedQuestions)}
         questions={selectedQuestions}
         onClose={handleClose}
         onSurveyFinished={handleFinished}

@@ -7,7 +7,7 @@
 }
 
 .ticketSpinner img {
-  animation: spin 3s infinite linear;
+  animation: spin 2s infinite linear;
   margin-top: 4rem;
 }
 .ticketSpinner h2 {
@@ -17,6 +17,15 @@
 .ticketText {
   padding-top: 4rem;
   font-size: 48px;
+}
+.blink_me {
+  animation: blinker 1s infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes spin {

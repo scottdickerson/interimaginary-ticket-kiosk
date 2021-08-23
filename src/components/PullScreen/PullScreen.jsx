@@ -15,7 +15,7 @@ class PullScreen extends React.Component {
   };
 
   static defaultProps = {
-    resetDelay: 360000,
+    resetDelay: 45000,
     isVisible: true,
   };
 
