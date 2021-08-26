@@ -2,9 +2,10 @@
   background-color: #b32248;
   color: white;
   border: 0;
-  font-size: 36px;
+  font-size: 32px;
   padding: 12px;
   white-space: nowrap;
+  height: 66px;
 }
 
 .disabled {
@@ -13,4 +14,17 @@
 
 .selected {
   outline: 5px auto -webkit-focus-ring-color;
+}
+
+button.button:focus {
+  background-color: #8f1d3b;
+}
+
+button.button:active {
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.05);
+}
+
+button.button {
+  font-family: 'Palatino';
 }

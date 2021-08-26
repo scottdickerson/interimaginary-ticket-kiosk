@@ -35,7 +35,7 @@ const Survey = ({ questions, onSurveyFinished, onClose, shouldAnimateBunny = tru
           <img height={28} src={back} alt="back" />
         </button>
         <button className={styles.surveyButton} onClick={() => onClose()}>
-          <img height={28} src={close} alt="close" />
+          <img height={40} src={close} alt="close" />
         </button>
       </header>
       <Question

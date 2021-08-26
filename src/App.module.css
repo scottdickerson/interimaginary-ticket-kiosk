@@ -13,8 +13,9 @@
   user-select: none;
 }
 h1,
-h2 {
-  font-weight: 400;
+h2,
+button {
+  font-weight: 200;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -148,8 +149,5 @@ table {
 
 button:active {
   transition: all 0.4s ease-in-out;
-  transform: scale(1.05);
-}
-button:focus {
-  background-color: #8f1d3b;
+  transform: scale(1.55);
 }
