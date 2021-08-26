@@ -18,7 +18,7 @@ const BunnyAnimationRedux = ({ isStarted, onFinished }) => {
     <video
       className={styles.bunnyAnimation}
       ref={videoRef}
-      height="200"
+      height="100"
       width="800"
       onEnded={onFinished}>
       <source src={bunnyVideo} type="video/mp4"></source>
