@@ -8,14 +8,13 @@
 
 .ticketSpinner img {
   animation: spin 2s infinite linear;
-  margin-top: 4rem;
+  margin-top: 80px;
 }
 .ticketSpinner h2 {
-  padding-top: 10vh;
+  padding-top: 34px;
 }
 
 .ticketText {
-  padding-top: 4rem;
   font-size: 48px;
 }
 .blink_me {
