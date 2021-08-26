@@ -1,7 +1,7 @@
 .ticketSpinner {
   display: flex;
   flex-flow: column nowrap;
-  color: #b32248;
+  color: #a31414;
   letter-spacing: 1px;
   align-items: center;
 }
