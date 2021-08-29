@@ -57,7 +57,7 @@ const TicketSpinner = ({ history }) => {
   return (
     <div className={styles.ticketSpinner}>
       <img width="350px" height="350px" src={bunnies} alt="Spinning bunnies" />
-      {showText ? (
+      {showText && !showErrorText ? (
         <h2 className={classNames(styles.ticketText, styles.blink_me)}>
           Here&prime;s your ticket!
         </h2>

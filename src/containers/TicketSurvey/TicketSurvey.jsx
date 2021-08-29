@@ -8,7 +8,6 @@ import { withRouter } from 'react-router';
 const TRAVELER_QUESTION_TYPE = 'TRAVELER_QUESTION_TYPE';
 
 const questions = [
-  { question: 'What color is the number seven?', choices: ['red', 'green', 'blue'] },
   {
     question: 'If you replace every single part of your boat,',
     questionLineTwo: 'is it still the same boat?',
@@ -19,6 +18,7 @@ const questions = [
     questionLineTwo: 'the chicken or the egg?',
     choices: ['chicken', 'egg', 'opt out...'],
   },
+  { question: 'What color is the number seven?', choices: ['red', 'green', 'blue'] },
   {
     question: 'If you do everything there is to do,',
     questionLineTwo: 'what can you do next?',
@@ -41,8 +41,9 @@ const questions = [
     choices: [`no`, `depends on the definition of anything`, `I am singularly unique... `],
   },
   {
-    question: 'Are there other universes besides our own?',
-    choices: [`yes`, `no`, `maybe...`],
+    question: 'Are there other universes',
+    questionLineTwo: 'besides our own?',
+    choices: [`There are infinite universes.`, `This is the only universe.`, `Besides U of T?`],
   },
   {
     question: `If someone says "I'm lying,"`,
@@ -51,15 +52,15 @@ const questions = [
   },
   {
     question: `Is the answer to this question "no"?`,
-    choices: [`yes`, `no`, `???`],
+    choices: [`yes`, `no`, `orange`],
   },
   {
     question: `Can you step in the same river twice?`,
     choices: [`yes`, `no`, `it depends...`],
   },
   {
-    question: `Which of these would you choose `,
-    questionLineTwo: 'to be your spirit animal?',
+    question: `Choose one of these animals`,
+    questionLineTwo: 'to accompany you on your journey',
     choices: [`raven`, `snow leopard`, `rattlesnake`],
   },
   {
@@ -75,6 +76,35 @@ const questions = [
     question: `Have we been visited by time travelers`,
     questionLineTwo: 'from the future?',
     choices: [`yes`, `no`, `How did you find me?`],
+  },
+  {
+    question: `Do animals have feelings?`,
+    choices: [`of course`, `of course`, `of course`],
+  },
+  {
+    question: `Are more things smaller than you`,
+    questionLineTwo: 'than larger than you?',
+    choices: [`I contain multitudes.`, `I am insignificant.`, `turtles all the way down`],
+  },
+  {
+    question: `How high are your hopes?`,
+    choices: [`I don't expect much.`, `I never get what I deserve.`, `I am pleasantly surprised.`],
+  },
+  {
+    question: `Who owns the air?`,
+    choices: [`everyone`, `no one`, `anyone`],
+  },
+  {
+    question: `Who makes the rules?`,
+    choices: [`They do.`, `I do.`, `There are no rules.`],
+  },
+  {
+    question: `Why is there something rather than nothing?`,
+    choices: [``, ``, ``],
+  },
+  {
+    question: `How much is enough?`,
+    choices: [`Give me more.`, `I'm fine.`, `Give me more.`],
   },
   {
     question: 'Choose one of these to accompany you:',
@@ -131,6 +161,7 @@ const questions = [
 ];
 
 const TicketSurvey = ({ history }) => {
+  console.log('total questions', questions?.length);
   const selectedQuestions = useMemo(
     () => [
       // select 5 non-traveler questions at random
@@ -138,6 +169,10 @@ const TicketSurvey = ({ history }) => {
         0,
         6
       ),
+
+      //...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
+      // TO TEST ALL QUESTIONS comment out the next
+      //  ...questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE),
       // ), // then select 1 traveler questions at random
       // ...shuffle(questions.filter(question => question.type === TRAVELER_QUESTION_TYPE)).slice(
       //   0,
