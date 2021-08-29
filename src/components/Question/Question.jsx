@@ -30,7 +30,7 @@ const Question = ({
   }, [question]);
   return (
     <section className={classnames(styles.question, className)}>
-      <h2>
+      <h2 className={classnames({ [styles.single]: !questionLineTwo })}>
         {question}
         {questionLineTwo ? (
           <>
