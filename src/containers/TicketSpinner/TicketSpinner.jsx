@@ -12,7 +12,7 @@ const SERVER_PORT = 3002;
 
 const TicketSpinner = ({ history }) => {
   const [showText, setShowText] = useState(false);
-  const [showErrorText, setShowErrorText] = useState(false);
+  // const [showErrorText, setShowErrorText] = useState(false);
   // Go back to main screen after some time
   useEffect(() => {
     // TODO: wait until the ticket actually prints, assume ticket prints in 5 seconds
@@ -29,7 +29,7 @@ const TicketSpinner = ({ history }) => {
       fetch(`http://localhost:${SERVER_PORT}/close`, { method: 'GET', mode: 'no-cors' }).catch(
         error => {
           console.log('Error printing ticket', error);
-          setShowErrorText(true);
+          // setShowErrorText(true);
         }
       );
     }, TEXT_DELAY);
@@ -57,16 +57,17 @@ const TicketSpinner = ({ history }) => {
   return (
     <div className={styles.ticketSpinner}>
       <img width="350px" height="350px" src={bunnies} alt="Spinning bunnies" />
-      {showText && !showErrorText ? (
+      {showText ? (
+        //&& !showErrorText
         <h2 className={classNames(styles.ticketText, styles.blink_me)}>
           Here&prime;s your ticket!
         </h2>
       ) : null}
-      {showErrorText ? (
+      {/* {showErrorText ? (
         <h2 className={classNames(styles.ticketText)}>
           Error printing ticket! Please contact your airport gate agent.
         </h2>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
