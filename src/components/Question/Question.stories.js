@@ -18,3 +18,10 @@ Default.args = {
   question: 'What color is the number seven?',
   choices: ['red', 'green', 'blue'],
 };
+
+export const QuestionsWithSameAnswer = Template.bind({});
+
+QuestionsWithSameAnswer.args = {
+  question: 'Is something also nothing',
+  choices: ['', '', ''],
+};

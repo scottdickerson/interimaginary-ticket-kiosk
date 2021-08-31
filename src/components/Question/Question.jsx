@@ -27,6 +27,8 @@ const Question = ({
   // if the question changes reset the progress bar
   useEffect(() => {
     setIsProgressBarRunning(false);
+    // reset the selected choice too
+    setSelectedChoice();
   }, [question]);
   return (
     <section className={classnames(styles.question, className)}>

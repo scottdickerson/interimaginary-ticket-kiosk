@@ -8,7 +8,7 @@ const propTypes = {
   choices: PropTypes.arrayOf(PropTypes.string),
   isProgressBarRunning: PropTypes.bool,
   setIsProgressBarRunning: PropTypes.func,
-  selectedChoice: PropTypes.string,
+  selectedChoice: PropTypes.number,
   setSelectedChoice: PropTypes.func,
   onSelection: PropTypes.func,
   shouldAnimateBunny: PropTypes.bool,
@@ -29,9 +29,9 @@ const SimpleChoiceRenderer = ({
         <Button
           key={`${choice}-${i}`}
           disabled={isProgressBarRunning && choice !== selectedChoice}
-          selected={choice === selectedChoice}
+          selected={i === selectedChoice}
           onClick={() => {
-            setSelectedChoice(choice);
+            setSelectedChoice(i);
             setIsProgressBarRunning(true);
             if (!shouldAnimateBunny) {
               onSelection();
