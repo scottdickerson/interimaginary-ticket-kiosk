@@ -58,16 +58,12 @@ const TicketSpinner = ({ history }) => {
     <div className={styles.ticketSpinner}>
       <img width="350px" height="350px" src={bunnies} alt="Spinning bunnies" />
       {showText ? (
-        //&& !showErrorText
         <h2 className={classNames(styles.ticketText, styles.blink_me)}>
           Here&prime;s your ticket!
         </h2>
-      ) : null}
-      {/* {showErrorText ? (
-        <h2 className={classNames(styles.ticketText)}>
-          Error printing ticket! Please contact your airport gate agent.
-        </h2>
-      ) : null} */}
+      ) :  <h2 className={classNames(styles.waitingForTicketText)}>
+     We&prime;re working on your ticket.
+    </h2>}
     </div>
   );
 };

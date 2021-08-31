@@ -1,9 +1,9 @@
 .ticketSpinner {
   display: flex;
   flex-flow: column nowrap;
-  color: #a31414;
   letter-spacing: 1px;
   align-items: center;
+  font-size: 48px;
 }
 
 .ticketSpinner img {
@@ -15,8 +15,13 @@
 }
 
 .ticketText {
-  font-size: 48px;
+  color: #a31414;
 }
+
+.waitingForTicketText {
+  color:white;
+}
+
 .blink_me {
   animation: blinker 1s infinite;
 }
