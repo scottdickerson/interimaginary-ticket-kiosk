@@ -31,9 +31,9 @@ const questions = [
   {
     question: 'Is that a fish in your ear?',
     choices: [
-      `I can't hear you, I have a fish in my ear.`,
-      `I can't hear you, I have a fish in my ear. `,
-      `I can't hear you, I have a fish in my ear. `,
+      `I can't hear you, I have a fish in my ear`,
+      `I can't hear you, I have a fish in my ear`,
+      `I can't hear you, I have a fish in my ear`,
     ],
   },
   {
@@ -43,7 +43,7 @@ const questions = [
   {
     question: 'Are there other universes',
     questionLineTwo: 'besides our own?',
-    choices: [`There are infinite universes.`, `This is the only universe.`, `Besides U of T?`],
+    choices: [`there are infinite universes`, `this is the only universe`, `besides U of T?`],
   },
   {
     question: `If someone says "I'm lying,"`,
@@ -75,7 +75,7 @@ const questions = [
   {
     question: `Have we been visited by time travelers`,
     questionLineTwo: 'from the future?',
-    choices: [`yes`, `no`, `How did you find me?`],
+    choices: [`yes`, `no`, `how did you find me?`],
   },
   {
     question: `Do animals have feelings?`,
@@ -84,11 +84,11 @@ const questions = [
   {
     question: `Are more things smaller than you`,
     questionLineTwo: 'than larger than you?',
-    choices: [`I contain multitudes.`, `I am insignificant.`, `turtles all the way down`],
+    choices: [`I contain multitudes`, `I am insignificant`, `turtles all the way down`],
   },
   {
     question: `How high are your hopes?`,
-    choices: [`I don't expect much.`, `I never get what I deserve.`, `I am pleasantly surprised.`],
+    choices: [`I don't expect much`, `I never get what I deserve`, `I am pleasantly surprised`],
   },
   {
     question: `Who owns the air?`,
@@ -96,7 +96,7 @@ const questions = [
   },
   {
     question: `Who makes the rules?`,
-    choices: [`They do.`, `I do.`, `There are no rules.`],
+    choices: [`they do`, `I do.`, `there are no rules`],
   },
   {
     question: `Why is there something rather than nothing?`,
@@ -104,7 +104,19 @@ const questions = [
   },
   {
     question: `How much is enough?`,
-    choices: [`Give me more.`, `I'm fine.`, `Give me more.`],
+    choices: [`give me more`, `I'm fine`, `give me more`],
+  },
+  {
+    question: `How fast are you moving?`,
+    choices: [
+      `I'm standing still`,
+      `this is a pretty slow interface`,
+      `492,126 mph, riding on the earth`,
+    ],
+  },
+  {
+    question: `Are you thinking what I'm thinking?`,
+    choices: [`what are you thinking?`, `you tell me first`],
   },
   {
     question: 'Choose one of these to accompany you:',
