@@ -131,8 +131,20 @@ const questions = [
     ],
   },
   {
-    question: `How high is the sky?`,
-    choices: [`how deep is the ocean?`],
+    question: `What makes something art?`,
+    choices: [`I know it when I see it`, `because they say so`, `because I say so`],
+  },
+  {
+    question: `Where does your mind live?`,
+    choices: [`in my gut`, `in my head`, `in my heart`],
+  },
+  {
+    question: `How do you know you're not dreaming?`,
+    choices: [`life is but a dream`, `you are a character in my dream`, `I live in the real world`],
+  },
+  {
+    question: `How do you know you're not a computer?`,
+    choices: [`I have a soul`, `I am wetware`, `I'm bad at math`],
   },
   {
     question: 'Choose one of these to accompany you:',
