@@ -116,7 +116,7 @@ const questions = [
   },
   {
     question: `Are you thinking what I'm thinking?`,
-    choices: [`what are you thinking?`, `you tell me first`],
+    choices: [`what are you thinking?`, `you tell me first`, `we are on the same page`],
   },
   {
     question: 'Choose one of these to accompany you:',
