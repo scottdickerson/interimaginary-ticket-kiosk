@@ -111,12 +111,28 @@ const questions = [
     choices: [
       `I'm standing still`,
       `this is a pretty slow interface`,
-      `492,126 mph, riding on the earth`,
+      `492,126 miles per hour, riding on the earth`,
     ],
   },
   {
     question: `Are you thinking what I'm thinking?`,
     choices: [`what are you thinking?`, `you tell me first`, `we are on the same page`],
+  },
+  {
+    question: `What time is it right now?`,
+    choices: [`which now?`, `when is now?`, `time for my ticket, you irritating machine`],
+  },
+  {
+    question: `What is at the end of space?`,
+    choices: [
+      `space is infinite`,
+      `the big bang`,
+      `Milliways, the Restaurant at the End of the Universe`,
+    ],
+  },
+  {
+    question: `How high is the sky?`,
+    choices: [`how deep is the ocean?`],
   },
   {
     question: 'Choose one of these to accompany you:',
