@@ -11,7 +11,7 @@ const questions = [
   {
     question: 'If you replace every single part of your boat,',
     questionLineTwo: 'is it still the same boat?',
-    choices: ['yes', 'no', 'both yes and no...'],
+    choices: ['yes', 'no', 'yes and no...'],
   },
   {
     question: 'Which came first, ',
@@ -38,7 +38,7 @@ const questions = [
   },
   {
     question: 'Is there more than one of anything?',
-    choices: [`no`, `depends on the definition of anything`, `I am singularly unique... `],
+    choices: [`no`, `It depends on the definition of anything`, `I am singularly unique... `],
   },
   {
     question: 'Are there other universes',
@@ -96,7 +96,7 @@ const questions = [
   },
   {
     question: `Who makes the rules?`,
-    choices: [`they do`, `I do.`, `there are no rules`],
+    choices: [`they do`, `I do`, `there are no rules`],
   },
   {
     question: `Why is there something rather than nothing?`,
@@ -124,11 +124,7 @@ const questions = [
   },
   {
     question: `What is at the end of space?`,
-    choices: [
-      `space is infinite`,
-      `the big bang`,
-      `Milliways, the Restaurant at the End of the Universe`,
-    ],
+    choices: [`space is infinite`, `the big bang`, `The Restaurant at the End of the Universe`],
   },
   {
     question: `What makes something art?`,
