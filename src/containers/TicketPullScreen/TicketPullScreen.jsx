@@ -16,7 +16,6 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
 
   return (
     <PullScreen
-      onClick={handleClick}
       onReset={handleReset}
       resetDelay={resetDelay}
       isVisible={location?.pathname === ROUTES.PULLSCREEN}>
