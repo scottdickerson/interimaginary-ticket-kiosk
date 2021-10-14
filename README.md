@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# Getting Started with the Ticket Kiosk
+
+The ticket kiosk is a React-based app that connects to a local node server API that can interface with an Arduino board and ticket printer to print a ticket.
+
+Testing locally
+Start the UI server in development mode with `yarn start`
+Start the Ticket printing API with `node server.js`
 
 ## Running in your local docker
 

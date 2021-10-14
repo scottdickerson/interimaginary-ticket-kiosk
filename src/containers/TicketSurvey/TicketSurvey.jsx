@@ -22,18 +22,18 @@ const questions = [
   {
     question: 'If you do everything there is to do,',
     questionLineTwo: 'what can you do next?',
-    choices: ['start over', 'take it easy', `I'm busy...`],
+    choices: ['start over', 'take it easy', `I’m busy...`],
   },
   {
     question: 'Is doing nothing doing something?',
-    choices: ['absolutely', 'definitely not', `I'm busy...`],
+    choices: ['absolutely', 'definitely not', `I’m busy...`],
   },
   {
     question: 'Is that a fish in your ear?',
     choices: [
-      `I can't hear you, I have a fish in my ear`,
-      `I can't hear you, I have a fish in my ear`,
-      `I can't hear you, I have a fish in my ear`,
+      `I can’t hear you, I have a fish in my ear`,
+      `I can’t hear you, I have a fish in my ear`,
+      `I can’t hear you, I have a fish in my ear`,
     ],
   },
   {
@@ -43,10 +43,10 @@ const questions = [
   {
     question: 'Are there other universes',
     questionLineTwo: 'besides our own?',
-    choices: [`there are infinite universes`, `this is the only universe`, `besides U of T?`],
+    choices: [`there are infinite universes`, `this is the only universe`, `besides UT?`],
   },
   {
-    question: `If someone says "I'm lying,"`,
+    question: `If someone says "I’m lying,"`,
     questionLineTwo: 'is that person lying?',
     choices: [`yes`, `no`, `yes and no...`],
   },
@@ -88,7 +88,7 @@ const questions = [
   },
   {
     question: `How high are your hopes?`,
-    choices: [`I don't expect much`, `I never get what I deserve`, `I am pleasantly surprised`],
+    choices: [`I don’t expect much`, `I never get what I deserve`, `I am pleasantly surprised`],
   },
   {
     question: `Who owns the air?`,
@@ -104,23 +104,23 @@ const questions = [
   },
   {
     question: `How much is enough?`,
-    choices: [`give me more`, `I'm fine`, `give me more`],
+    choices: [`give me more`, `I’m fine`, `give me more`],
   },
   {
     question: `How fast are you moving?`,
     choices: [
-      `I'm standing still`,
+      `I’m standing still`,
       `this is a pretty slow interface`,
       `492,126 miles per hour, riding on the earth`,
     ],
   },
   {
-    question: `Are you thinking what I'm thinking?`,
+    question: `Are you thinking what I’m thinking?`,
     choices: [`what are you thinking?`, `you tell me first`, `we are on the same page`],
   },
   {
     question: `What time is it right now?`,
-    choices: [`which now?`, `when is now?`, `time for my ticket, you irritating machine`],
+    choices: [`which now?`, `when is now?`, `time for my ticket`],
   },
   {
     question: `What is at the end of space?`,
@@ -135,12 +135,12 @@ const questions = [
     choices: [`in my gut`, `in my head`, `in my heart`],
   },
   {
-    question: `How do you know you're not dreaming?`,
+    question: `How do you know you’re not dreaming?`,
     choices: [`life is but a dream`, `you are a character in my dream`, `I live in the real world`],
   },
   {
-    question: `How do you know you're not a computer?`,
-    choices: [`I have a soul`, `I am wetware`, `I'm bad at math`],
+    question: `How do you know you’re not a computer?`,
+    choices: [`I have a soul`, `I am wetware`, `I’m bad at math`],
   },
   {
     question: 'Choose one of these to accompany you:',
