@@ -14,12 +14,17 @@
   padding-top: 34px;
 }
 
+.ticketSpinner h3 {
+  font-size: 18px;
+  padding-top: 40px;
+}
+
 .ticketText {
-  color: #800303;
+  color: #8f1d3b;
 }
 
 .waitingForTicketText {
-  color:white;
+  color: white;
 }
 
 .blink_me {

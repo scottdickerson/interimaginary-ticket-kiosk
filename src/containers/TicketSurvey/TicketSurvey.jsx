@@ -100,7 +100,7 @@ const questions = [
   },
   {
     question: `Why is there something rather than nothing?`,
-    choices: [``, ``, ``],
+    choices: [`nothing IS something`, `nothing doesn’t exist`, `nothing would be too small`],
   },
   {
     question: `How much is enough?`,

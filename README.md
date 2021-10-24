@@ -6,6 +6,8 @@ Testing locally
 Start the UI server in development mode with `yarn start`
 Start the Ticket printing API with `node server.js`
 
+The email address is set from a local environment variable file called `TICKET_EMAIL`. Change the value in the `.env` file to change it
+
 ## Running in your local docker
 
 `docker build -t interimaginary:kiosk .`
