@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from './TicketSpinner.module.css';
-import { ROUTES } from '../../constants/constants';
 import bunnies from './img/TransparentBunnies.png';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
@@ -16,13 +15,6 @@ const TicketSpinner = ({ history }) => {
 
   const [showText, setShowText] = useState(false);
   // const [showErrorText, setShowErrorText] = useState(false);
-  // Go back to main screen after some time
-  useEffect(() => {
-    // TODO: wait until the ticket actually prints, assume ticket prints in 5 seconds
-    const timeout = setTimeout(() => history.push(ROUTES.PULLSCREEN), TEXT_DELAY + 5000);
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // load the email address
   useEffect(() => {

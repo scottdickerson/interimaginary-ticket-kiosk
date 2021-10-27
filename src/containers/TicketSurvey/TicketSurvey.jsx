@@ -6,6 +6,8 @@ import { ROUTES } from '../../constants/constants';
 import { withRouter } from 'react-router';
 
 const TRAVELER_QUESTION_TYPE = 'TRAVELER_QUESTION_TYPE';
+const NUMBER_OF_QUESTIONS = 6;
+//const NUMBER_OF_QUESTIONS = 1;
 
 const questions = [
   {
@@ -203,7 +205,7 @@ const TicketSurvey = ({ history }) => {
       // select 5 non-traveler questions at random
       ...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
         0,
-        6
+        NUMBER_OF_QUESTIONS
       ),
 
       //...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(

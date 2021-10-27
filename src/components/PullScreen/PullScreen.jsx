@@ -20,10 +20,25 @@ class PullScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.touchListener = document.body.addEventListener('touchstart', this.resetTimer);
-    this.clickListener = document.body.addEventListener('click', this.resetTimer);
+    this.touchListener = document.body.addEventListener('touchstart', this.handleReset);
+    this.clickListener = document.body.addEventListener('click', this.handleReset);
   }
-  resetTimer = () => {
+
+  componentWillUnmount() {
+    document.body.removeEventListener('touchstart', this.touchListener);
+    document.body.removeEventListener('click', this.clickListener);
+  }
+  // if the reset Delay changes then switch it
+  componentDidUpdate(prevProps) {
+    if (this.props.resetDelay !== prevProps.resetDelay) {
+      console.log(
+        'the reset delay switched so I am resetting the timer new reset delay: ',
+        this.props.resetDelay
+      );
+      this.handleReset();
+    }
+  }
+  handleReset = () => {
     const { resetDelay, onReset } = this.props;
     clearTimeout(this.resetTimer);
     this.resetTimer = setTimeout(onReset, resetDelay);
