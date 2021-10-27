@@ -58,7 +58,7 @@ const TicketSpinner = ({ history }) => {
     return () => {
       clearTimeout(printRelayClose);
     };
-  });
+  }, []);
 
   // open the relay to stop the ticket printing
   useEffect(() => {
