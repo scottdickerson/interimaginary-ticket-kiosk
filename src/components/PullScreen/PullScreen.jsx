@@ -19,15 +19,15 @@ class PullScreen extends React.Component {
     isVisible: true,
   };
 
-  componentDidMount() {
-    this.touchListener = document.body.addEventListener('touchstart', this.resetTimer);
-    this.clickListener = document.body.addEventListener('click', this.resetTimer);
-  }
-  resetTimer = () => {
-    const { resetDelay, onReset } = this.props;
-    clearTimeout(this.resetTimer);
-    this.resetTimer = setTimeout(onReset, resetDelay);
-  };
+  // componentDidMount() {
+  //   this.touchListener = document.body.addEventListener('touchstart', this.resetTimer);
+  //   this.clickListener = document.body.addEventListener('click', this.resetTimer);
+  // }
+  // resetTimer = () => {
+  //   const { resetDelay, onReset } = this.props;
+  //   clearTimeout(this.resetTimer);
+  //   this.resetTimer = setTimeout(onReset, resetDelay);
+  // };
 
   render() {
     const { children, onClick, isVisible } = this.props;

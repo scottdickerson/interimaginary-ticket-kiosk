@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import Survey from '../../components/Survey/Survey';
 import shuffle from 'lodash/shuffle';
 import MainScreen from '../../components/MainScreen/MainScreen';
@@ -6,6 +6,7 @@ import { ROUTES } from '../../constants/constants';
 import { withRouter } from 'react-router';
 
 const TRAVELER_QUESTION_TYPE = 'TRAVELER_QUESTION_TYPE';
+const NUMBER_OF_QUESTIONS = 6;
 
 const questions = [
   {
@@ -195,15 +196,52 @@ const questions = [
     ],
   },
 ];
+const defaultProps = {
+  //resetDelay: 5000,
+  resetDelay: 45000,
+};
 
-const TicketSurvey = ({ history }) => {
+const TicketSurvey = ({ history, resetDelay }) => {
+  const touchListener = useRef();
+  const clickListener = useRef();
+  const resetTimer = useRef();
+  const handleReset = () => {
+    history.push(ROUTES.PULLSCREEN);
+  };
+  const onReset = () => {
+    console.log('survey called reset');
+    handleReset();
+  };
+  const handleTouch = () => {
+    console.log('resetTimer created in survey with ', resetDelay);
+    if (resetTimer.current) {
+      console.log('cleared resetTimer in survey path');
+      clearTimeout(resetTimer.current);
+    }
+    resetTimer.current = setTimeout(onReset, resetDelay);
+  };
+  // listen so every click resets the reset time
+  useEffect(() => {
+    // fire on the first survey question, reset the timer on each click
+    handleTouch();
+    touchListener.current = document.body.addEventListener('touchstart', handleTouch);
+    clickListener.current = document.body.addEventListener('click', handleTouch);
+    return () => {
+      document.body.removeEventListener('touchstart', touchListener.current);
+      document.body.removeEventListener('click', clickListener.current);
+      // clear this timer when we leave
+      if (resetTimer.current) {
+        clearTimeout(resetTimer.current);
+      }
+    };
+  }, []);
   console.log('total questions', questions?.length);
   const selectedQuestions = useMemo(
     () => [
       // select 5 non-traveler questions at random
       ...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
         0,
-        6
+        NUMBER_OF_QUESTIONS
       ),
 
       //...shuffle(questions.filter(question => question.type !== TRAVELER_QUESTION_TYPE)).slice(
@@ -234,5 +272,5 @@ const TicketSurvey = ({ history }) => {
     </MainScreen>
   );
 };
-
+TicketSurvey.defaultProps = defaultProps;
 export default withRouter(TicketSurvey);
