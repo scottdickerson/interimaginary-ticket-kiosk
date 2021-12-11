@@ -10,14 +10,14 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
     history.push(ROUTES.MAINSCREEN);
   };
 
-  const handleReset = () => {
-    history.push(ROUTES.PULLSCREEN);
-  };
+  // const handleReset = () => {
+  //   history.push(ROUTES.PULLSCREEN);
+  // };
 
   return (
     <PullScreen
-      onReset={handleReset}
-      resetDelay={resetDelay}
+      // onReset={handleReset}
+      // resetDelay={resetDelay}
       isVisible={location?.pathname === ROUTES.PULLSCREEN}>
       <div className={styles.ticketPullScreen}>
         <h1 className={styles.title}>Hello...</h1>
