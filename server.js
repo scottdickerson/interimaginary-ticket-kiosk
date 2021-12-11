@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const { provideRandomTicket } = require('./src/api/ticketReader.js');
 
 var five = require('johnny-five');
 
@@ -41,6 +42,18 @@ app.get('/close', (req, res) => {
 app.get('/blink', (req, res) => {
   res.end('blinking onboard LED');
   PrinterSwitch?.blink();
+});
+
+app.get('/ticket', async (req, res, next) => {
+  try {
+    const ticketDestination = await provideRandomTicket();
+    console.log('returning random ticket', ticketDestination);
+    res.status(200);
+    res.json(ticketDestination);
+  } catch (e) {
+    console.error('error getting random ticket', e);
+    next(e);
+  }
 });
 
 // Handle 404 - Keep this as a last route
