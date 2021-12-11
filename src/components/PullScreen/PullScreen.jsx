@@ -8,7 +8,6 @@ import styles from './PullScreen.module.css';
 class PullScreen extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     resetDelay: PropTypes.number,
     isVisible: PropTypes.bool,
@@ -41,6 +40,7 @@ class PullScreen extends React.Component {
   handleReset = () => {
     const { resetDelay, onReset } = this.props;
     clearTimeout(this.resetTimer);
+    console.log('resetting reset timer to: ', resetDelay, ' someone clicked or we switched pages');
     this.resetTimer = setTimeout(onReset, resetDelay);
   };
 

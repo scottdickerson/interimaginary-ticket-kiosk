@@ -9,12 +9,22 @@ import { Helmet } from 'react-helmet';
 import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
 import font from './fonts/Palatino.otf';
 
+const TICKET_SCREEN_PAGE_DELAY = 50000;
+const MAIN_SCREEN_PAGE_DELAY = 45000;
+
+// const TICKET_SCREEN_PAGE_DELAY = 5000;
+// const MAIN_SCREEN_PAGE_DELAY = 4000;
+
 function App({ location }) {
   console.log('location.pathname', location.pathname);
   return (
     <section className={styles.app}>
       {/* the reset delay is different between the two pages*/}
-      <TicketPullScreen resetDelay={location.pathname.includes('ticket') ? 50000 : 45000} />
+      <TicketPullScreen
+        resetDelay={
+          location.pathname.includes('ticket') ? TICKET_SCREEN_PAGE_DELAY : MAIN_SCREEN_PAGE_DELAY
+        }
+      />
       <Helmet>
         <link rel="preload" as="image" href={bunnies} />
         <link rel="preload" as="font" href={font} />

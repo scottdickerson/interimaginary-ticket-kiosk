@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import classNames from 'classnames';
 
 const TEXT_DELAY = 20000;
+//const TEXT_DELAY = 5000;
 
 const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';
