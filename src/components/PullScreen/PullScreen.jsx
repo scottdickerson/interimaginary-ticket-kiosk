@@ -8,7 +8,6 @@ import styles from './PullScreen.module.css';
 class PullScreen extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     resetDelay: PropTypes.number,
     isVisible: PropTypes.bool,
@@ -19,15 +18,31 @@ class PullScreen extends React.Component {
     isVisible: true,
   };
 
-  // componentDidMount() {
-  //   this.touchListener = document.body.addEventListener('touchstart', this.resetTimer);
-  //   this.clickListener = document.body.addEventListener('click', this.resetTimer);
-  // }
-  // resetTimer = () => {
-  //   const { resetDelay, onReset } = this.props;
-  //   clearTimeout(this.resetTimer);
-  //   this.resetTimer = setTimeout(onReset, resetDelay);
-  // };
+  componentDidMount() {
+    this.touchListener = document.body.addEventListener('touchstart', this.handleReset);
+    this.clickListener = document.body.addEventListener('click', this.handleReset);
+  }
+
+  componentWillUnmount() {
+    document.body.removeEventListener('touchstart', this.touchListener);
+    document.body.removeEventListener('click', this.clickListener);
+  }
+  // if the reset Delay changes then switch it
+  componentDidUpdate(prevProps) {
+    if (this.props.resetDelay !== prevProps.resetDelay) {
+      console.log(
+        'the reset delay switched so I am resetting the timer new reset delay: ',
+        this.props.resetDelay
+      );
+      this.handleReset();
+    }
+  }
+  handleReset = () => {
+    const { resetDelay, onReset } = this.props;
+    clearTimeout(this.resetTimer);
+    console.log('resetting reset timer to: ', resetDelay, ' someone clicked or we switched pages');
+    this.resetTimer = setTimeout(onReset, resetDelay);
+  };
 
   render() {
     const { children, onClick, isVisible } = this.props;

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import Survey from '../../components/Survey/Survey';
 import shuffle from 'lodash/shuffle';
 import MainScreen from '../../components/MainScreen/MainScreen';
@@ -196,45 +196,8 @@ const questions = [
     ],
   },
 ];
-const defaultProps = {
-  //resetDelay: 5000,
-  resetDelay: 45000,
-};
 
-const TicketSurvey = ({ history, resetDelay }) => {
-  const touchListener = useRef();
-  const clickListener = useRef();
-  const resetTimer = useRef();
-  const handleReset = () => {
-    history.push(ROUTES.PULLSCREEN);
-  };
-  const onReset = () => {
-    console.log('survey called reset');
-    handleReset();
-  };
-  const handleTouch = () => {
-    console.log('resetTimer created in survey with ', resetDelay);
-    if (resetTimer.current) {
-      console.log('cleared resetTimer in survey path');
-      clearTimeout(resetTimer.current);
-    }
-    resetTimer.current = setTimeout(onReset, resetDelay);
-  };
-  // listen so every click resets the reset time
-  useEffect(() => {
-    // fire on the first survey question, reset the timer on each click
-    handleTouch();
-    touchListener.current = document.body.addEventListener('touchstart', handleTouch);
-    clickListener.current = document.body.addEventListener('click', handleTouch);
-    return () => {
-      document.body.removeEventListener('touchstart', touchListener.current);
-      document.body.removeEventListener('click', clickListener.current);
-      // clear this timer when we leave
-      if (resetTimer.current) {
-        clearTimeout(resetTimer.current);
-      }
-    };
-  }, []);
+const TicketSurvey = ({ history }) => {
   console.log('total questions', questions?.length);
   const selectedQuestions = useMemo(
     () => [
@@ -272,5 +235,4 @@ const TicketSurvey = ({ history, resetDelay }) => {
     </MainScreen>
   );
 };
-TicketSurvey.defaultProps = defaultProps;
 export default withRouter(TicketSurvey);

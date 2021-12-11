@@ -1,57 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './TicketSpinner.module.css';
-import { ROUTES } from '../../constants/constants';
 import bunnies from './img/TransparentBunnies.png';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
 
 const TEXT_DELAY = 20000;
-// const TEXT_DELAY = 5000;
-// wait for the text to show for 30 seconds
-const RESET_DELAY = TEXT_DELAY + 30000;
-//onst RESET_DELAY = 6000;
+//const TEXT_DELAY = 5000;
 
 const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';
 
-const TicketSpinner = ({ history, resetDelay }) => {
-  const resetTimer = useRef();
-  const handleReset = () => {
-    console.log('resetting to main page from ticket spinner');
-    history.push(ROUTES.PULLSCREEN);
-  };
-  const onReset = () => {
-    console.log('resetTimer called from ticket spinner');
-    handleReset();
-  };
-
-  // start a timer when the page renders
-  useEffect(() => {
-    if (resetTimer.current) {
-      console.log('cleared resetTimer in spinner');
-      clearTimeout(resetTimer.current);
-    }
-    console.log('resetTimer created in spinner with ', resetDelay);
-    resetTimer.current = setTimeout(onReset, resetDelay);
-    return () => {
-      if (resetTimer.current) {
-        console.log('cleared resetTimer in spinner');
-        clearTimeout(resetTimer.current);
-      }
-    };
-  }, []);
+const TicketSpinner = () => {
+  const [showText, setShowText] = useState(false);
+  // const [showErrorText, setShowErrorText] = useState(false);
 
   const [ticketEmail, setTicketEmail] = useState('interimaginary@austintexas.gov');
-
-  const [showText, setShowText] = useState(false);
-  // // const [showErrorText, setShowErrorText] = useState(false);
-  // // Go back to main screen after some time
-  // useEffect(() => {
-  //   // TODO: wait until the ticket actually prints, assume ticket prints in 5 seconds
-  //   const timeout = setTimeout(() => history.push(ROUTES.PULLSCREEN), TEXT_DELAY + 5000);
-  //   return () => clearTimeout(timeout);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   // load the email address
   useEffect(() => {
@@ -126,7 +89,4 @@ const TicketSpinner = ({ history, resetDelay }) => {
   );
 };
 
-TicketSpinner.defaultProps = {
-  resetDelay: RESET_DELAY,
-};
 export default withRouter(TicketSpinner);
