@@ -6,7 +6,8 @@ Testing locally
 Start the UI server in development mode with `yarn start`
 Start the Ticket printing API with `node server.js`
 
-The email address is set from a local environment variable file called `TICKET_EMAIL`. Change the value in the `.env` file to change it
+The email address is set from a local environment variable file called `TICKET_EMAIL`. Change the value in the `.env` file to change it.
+If you want to disable the Ticket printing screen set the `TICKET_PRINTER` variable to false
 
 ## Running in your local docker
 

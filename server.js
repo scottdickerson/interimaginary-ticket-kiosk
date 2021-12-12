@@ -44,6 +44,12 @@ app.get('/blink', (req, res) => {
   PrinterSwitch?.blink();
 });
 
+app.get('/printerConfiguration', (req, res) => {
+  res.status(200);
+  console.log('is the ticket printer configured?', process.env.TICKET_PRINTER);
+  res.send(process.env.TICKET_PRINTER);
+});
+
 app.get('/ticket', async (req, res, next) => {
   try {
     const ticketDestination = await provideRandomTicket();

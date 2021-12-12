@@ -1,7 +1,7 @@
 import QRCode from 'react-qr-code';
 import { useEffect } from 'react';
 import Header from '../Header/Header';
-import styles from './TicketDisplayScreen.module.css';
+import styles from './TicketDetails.module.css';
 
 const cache = {};
 
@@ -13,7 +13,7 @@ importAll(require.context('../../data/imgs', false, /^.*\.png$/, 'sync'));
 
 console.log('dynamic image import cache', cache);
 
-const TicketDisplayScreen = ({ ticketURL, ticketDestination, onBack, onClose }) => {
+const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
   const ticketImageName = `./${ticketDestination}.png`;
 
   // log when the ticket has changed
@@ -27,7 +27,7 @@ const TicketDisplayScreen = ({ ticketURL, ticketDestination, onBack, onClose }) 
         <h2 className={styles.heading}>Here’s your virtual ticket!</h2>
         <img
           className={styles.ticketImage}
-          src={cache[ticketImageName].default}
+          src={cache[ticketImageName]?.default}
           alt={`Ticket for ${ticketDestination}`}
         />
         <span className={styles.instructions}>
@@ -39,4 +39,4 @@ const TicketDisplayScreen = ({ ticketURL, ticketDestination, onBack, onClose }) 
   );
 };
 
-export default TicketDisplayScreen;
+export default TicketDetails;

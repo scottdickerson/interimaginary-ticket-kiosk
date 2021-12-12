@@ -7,6 +7,7 @@ import { withRouter } from 'react-router';
 
 const TRAVELER_QUESTION_TYPE = 'TRAVELER_QUESTION_TYPE';
 const NUMBER_OF_QUESTIONS = 6;
+// const NUMBER_OF_QUESTIONS = 1;
 
 const questions = [
   {

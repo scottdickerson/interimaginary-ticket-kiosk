@@ -1,4 +1,4 @@
-import TicketDisplayScreen from './TicketDisplayScreen';
+import TicketDetails from './TicketDetails';
 
 // Unfortunately since this is a story running in the browser I don't have access to the fs APIs
 const destinations = [
@@ -452,12 +452,12 @@ const destinations = [
   },
 ];
 const story = {
-  title: 'components/TicketDisplayScreen',
-  component: TicketDisplayScreen,
+  title: 'components/TicketDetails',
+  component: TicketDetails,
 };
 
 export const Default = () => (
-  <TicketDisplayScreen
+  <TicketDetails
     ticketDestination="Abame"
     ticketURL="http://interimaginarydepartures.com/hyperborea/"
   />
@@ -466,7 +466,7 @@ export const Default = () => (
 // Show all the possible ticket images on one screen
 export const AllTicketScreens = () => {
   return destinations.map(ticket => (
-    <TicketDisplayScreen ticketDestination={ticket.DESTINATION} ticketURL={ticket.URL} />
+    <TicketDetails ticketDestination={ticket.DESTINATION} ticketURL={ticket.URL} />
   ));
 };
 
