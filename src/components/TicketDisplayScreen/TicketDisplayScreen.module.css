@@ -1,0 +1,19 @@
+.ticketDisplayScreen {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.ticketImage {
+  width: 575px;
+}
+.heading {
+  padding-bottom: 24px;
+}
+.qrCode {
+  height: 75px;
+}
+.instructions {
+  padding-top: 30px;
+  padding-bottom: 1rem;
+  font-size: 24px;
+}

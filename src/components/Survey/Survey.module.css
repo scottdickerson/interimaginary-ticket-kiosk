@@ -4,25 +4,3 @@
   height: 600px;
   width: 800px;
 }
-.header {
-  display: flex;
-  justify-content: space-between;
-  width: calc(100% - 44px);
-  height: 59px;
-  padding-left: 1.5rem;
-  padding-top: 2rem;
-  padding-right: 1.5rem;
-}
-
-.surveyButton,
-.surveyBackButton {
-  background-color: black;
-  border: 0;
-  height: 40px;
-  padding-left: 10px;
-  padding-right: 0;
-}
-
-.surveyBackButton {
-  height: 40px;
-}

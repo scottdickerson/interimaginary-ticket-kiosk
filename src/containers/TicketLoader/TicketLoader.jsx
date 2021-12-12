@@ -1,12 +1,23 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import QRCode from 'react-qr-code';
+import { useEffect, useState, useCallback } from 'react';
+import TicketDisplayScreen from '../../components/TicketDisplayScreen/TicketDisplayScreen';
+import { withRouter } from 'react-router';
+import { ROUTES } from '../../constants/constants';
 
 const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';
 
-const TicketQRCode = () => {
+const TicketQRCode = ({ history }) => {
   const [ticketURL, setTicketURL] = useState();
+
+  // respond to the header events
+  const handleBack = useCallback(() => {
+    history.goBack();
+  }, [history]);
+  const handleClose = useCallback(() => {
+    history.push(ROUTES.PULLSCREEN);
+  }, [history]);
+
   useEffect(() => {
     const loadTicketURL = async () => {
       try {
@@ -34,7 +45,9 @@ const TicketQRCode = () => {
     }
   }, [ticketURL]);
 
-  return ticketURL ? <QRCode value={ticketURL} /> : null;
+  return ticketURL ? (
+    <TicketDisplayScreen ticketURL={ticketURL} onBack={handleBack} onClose={handleClose} />
+  ) : null;
 };
 
-export default TicketQRCode;
+export default withRouter(TicketQRCode);
