@@ -28,12 +28,14 @@ app.get('/email', (req, res) => {
 });
 
 app.get('/open', (req, res) => {
+  console.log('ticket finished printing!');
   res.end('relay opened');
   PrinterSwitch?.open();
   // PrinterSwitch.low();
 });
 
 app.get('/close', (req, res) => {
+  console.log('ticket printing!');
   PrinterSwitch?.close();
   // PrinterSwitch.high();
   res.end('relay closed');

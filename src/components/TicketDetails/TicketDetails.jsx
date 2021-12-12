@@ -22,8 +22,13 @@ const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
   }, [ticketImageName]);
   return (
     <>
-      <Header onBack={onBack} onClose={onClose} />
       <div className={styles.ticketDisplayScreen}>
+        <Header
+        /**
+         * onBack={onBack}
+         * onClose={onClose}
+         */
+        />
         <h2 className={styles.heading}>Here’s your virtual ticket!</h2>
         <img
           className={styles.ticketImage}

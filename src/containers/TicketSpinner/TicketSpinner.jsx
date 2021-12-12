@@ -9,7 +9,7 @@ import { ROUTES } from '../../constants/constants';
 const TEXT_DELAY = 20000;
 //const TEXT_DELAY = 5000;
 const SCREEN_TO_TICKETDISPLAY_TIMER = 30000;
-// const SCREEN_TO_TICKET_DISPLAY_TIMER = 2000;
+// const SCREEN_TO_TICKETDISPLAY_TIMER = 2000;
 
 const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';

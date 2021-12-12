@@ -11,6 +11,7 @@ import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
 import font from './fonts/Palatino.otf';
 
 const TICKET_SCREEN_PAGE_DELAY = 50000;
+const TICKET_DETAILS_PAGE_DELAY = 60000;
 const MAIN_SCREEN_PAGE_DELAY = 45000;
 
 // const TICKET_SCREEN_PAGE_DELAY = 5000;
@@ -23,7 +24,11 @@ function App({ location }) {
       {/* the reset delay is different between the two pages*/}
       <TicketPullScreen
         resetDelay={
-          location.pathname.includes('ticket') ? TICKET_SCREEN_PAGE_DELAY : MAIN_SCREEN_PAGE_DELAY
+          location.pathname.includes(ROUTES.TICKETDISPLAY)
+            ? TICKET_DETAILS_PAGE_DELAY
+            : location.pathname.includes(ROUTES.TICKETSPINNER)
+            ? TICKET_SCREEN_PAGE_DELAY
+            : MAIN_SCREEN_PAGE_DELAY
         }
       />
       <Helmet>
