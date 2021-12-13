@@ -20,6 +20,7 @@ const TicketSpinner = ({ history }) => {
 
   const [ticketEmail, setTicketEmail] = useState('interimaginary@austintexas.gov');
   const [isPrinterConfigured, setIsPrinterConfigured] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // load the email address and the ticket printer configuration
   useEffect(() => {
@@ -53,18 +54,21 @@ const TicketSpinner = ({ history }) => {
       .catch(error => {
         console.log('Error fetching printerConfiguration', error);
         // setShowErrorText(true);
+      })
+      .finally(() => {
+        setIsLoaded(true);
       });
   }, []);
 
   useEffect(() => {
     // if the printer really isn't configured, we will redirect to the visual ticket page after 30 seconds
-    if (!isNil(isPrinterConfigured) && !isPrinterConfigured) {
+    if (isLoaded && !isPrinterConfigured) {
       const displayRedirectTimer = setTimeout(() => {
         history.push(ROUTES.TICKETDISPLAY);
       }, [SCREEN_TO_TICKETDISPLAY_TIMER]);
       return () => clearTimeout(displayRedirectTimer);
     }
-  }, [isPrinterConfigured, history]);
+  }, [isLoaded, isPrinterConfigured, history]);
 
   // print ticket after some time
   useEffect(() => {

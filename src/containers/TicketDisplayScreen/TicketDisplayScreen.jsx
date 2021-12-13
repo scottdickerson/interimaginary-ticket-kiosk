@@ -8,7 +8,11 @@ const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';
 
 const TicketQRCode = ({ history }) => {
-  const [ticketDetails, setTicketDetails] = useState();
+  const [ticketDetails, setTicketDetails] = useState({
+    // set a default in case we can't access the server
+    destinationName: 'Hogwarts',
+    destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
+  });
 
   // respond to the header events
   const handleBack = useCallback(() => {
