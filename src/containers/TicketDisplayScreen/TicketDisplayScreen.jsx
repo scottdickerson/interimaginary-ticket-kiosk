@@ -8,11 +8,7 @@ const SERVER_PORT = 3002;
 const SERVER_HOST = '127.0.0.1';
 
 const TicketQRCode = ({ history }) => {
-  const [ticketDetails, setTicketDetails] = useState({
-    // set a default in case we can't access the server
-    destinationName: 'Hogwarts',
-    destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
-  });
+  const [ticketDetails, setTicketDetails] = useState();
 
   // respond to the header events
   const handleBack = useCallback(() => {
@@ -36,18 +32,23 @@ const TicketQRCode = ({ history }) => {
           setTicketDetails(ticketDetails);
         } else {
           console.error('Could not find ticket Details');
-          setTicketDetails('http://interimaginarydepartures.com/abame/');
+          setTicketDetails({
+            // set a default in case we can't access the server
+            destinationName: 'Hogwarts',
+            destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
+          });
         }
       } catch (e) {
         console.error('Error loading ticket Details', e);
-        setTicketDetails('http://interimaginarydepartures.com/abame/');
+        setTicketDetails({
+          // set a default in case we can't access the server
+          destinationName: 'Hogwarts',
+          destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
+        });
       }
     };
-
-    if (!ticketDetails) {
-      loadTicketDetails();
-    }
-  }, [ticketDetails]);
+    loadTicketDetails();
+  }, []);
 
   return ticketDetails ? (
     <TicketDetails
