@@ -8,6 +8,7 @@ const BunnyAnimationRedux = ({ isStarted, onFinished }) => {
     if (videoRef.current) {
       if (isStarted) {
         videoRef.current.play();
+        videoRef.current.playbackRate = 1.5;
       } else {
         videoRef.current.pause();
       }

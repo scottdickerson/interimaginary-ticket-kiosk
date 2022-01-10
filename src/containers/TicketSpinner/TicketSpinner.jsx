@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styles from './TicketSpinner.module.css';
 import bunnies from './img/TransparentBunnies.png';
 import { withRouter } from 'react-router';
-import isNil from 'lodash/isNil';
 import classNames from 'classnames';
 import { ROUTES } from '../../constants/constants';
 
 const TEXT_DELAY = 20000;
 //const TEXT_DELAY = 5000;
-const SCREEN_TO_TICKETDISPLAY_TIMER = 30000;
+const SCREEN_TO_TICKETDISPLAY_TIMER = 5000;
 // const SCREEN_TO_TICKETDISPLAY_TIMER = 2000;
 
 const SERVER_PORT = 3002;
