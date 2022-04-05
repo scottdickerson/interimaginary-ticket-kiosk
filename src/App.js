@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router';
 import { ROUTES } from './constants/constants';
 import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
@@ -18,6 +18,12 @@ const MAIN_SCREEN_PAGE_DELAY = 45000;
 // const MAIN_SCREEN_PAGE_DELAY = 4000;
 
 function App({ location }) {
+  useEffect(() => {
+    // disable two-finger right click
+    const rightClickListener = evt => evt.preventDefault();
+    window.addEventListener('contextmenu', rightClickListener);
+    return () => window.removeEventListener('contextmenu', rightClickListener);
+  }, []);
   console.log('location.pathname', location.pathname);
   return (
     <section className={styles.app}>
