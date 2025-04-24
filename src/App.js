@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Switch } from 'react-router';
 import { ROUTES } from './constants/constants';
 import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
@@ -10,6 +10,9 @@ import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
 import font from './fonts/Palatino.otf';
 
 function App() {
+  useEffect(()=>{
+    window.addEventListener('contextmenu',evt=>evt.preventDefault())
+  },[])
   return (
     <section className={styles.app}>
       <TicketPullScreen />
