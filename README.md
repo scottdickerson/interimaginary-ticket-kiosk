@@ -2,6 +2,22 @@
 
 The ticket kiosk is a React-based app that connects to a local node server API that can interface with an Arduino board and ticket printer to print a ticket.
 
+## Development setup (node-gyp / native modules)
+
+This project uses native dependencies (e.g. `johnny-five` → `@serialport/bindings`). To avoid node-gyp errors:
+
+1. **Node version**  
+   Use the Node version in `package.json` → `engines.node` (e.g. 18.x). With nvm:  
+   `nvm install 18 && nvm use 18`
+
+2. **macOS – native build tools**  
+   Install Xcode Command Line Tools (compilers, etc.):  
+   `xcode-select --install`  
+   Ensure Python is available (`python3 --version`); the system Python or Homebrew Python is fine.
+
+3. **Version mismatches**  
+   If you still see node-gyp errors, align your Node version with what the native package supports (see [node-gyp](https://github.com/nodejs/node-gyp) and the package’s docs).
+
 Testing locally
 Start the UI server in development mode with `yarn start`
 Start the Ticket printing API with `node server.js`

@@ -6,6 +6,7 @@ import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
 import TicketSurvey from './containers/TicketSurvey/TicketSurvey';
 import TicketSpinner from './containers/TicketSpinner/TicketSpinner';
 import TicketDisplay from './containers/TicketDisplayScreen/TicketDisplayScreen';
+import MobileTicketDisplay from './containers/MobileTicketDisplay/MobileTicketDisplay';
 import { Helmet } from 'react-helmet';
 import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
 import font from './fonts/Palatino.otf';
@@ -45,6 +46,10 @@ function App({ location }) {
         <Route path={ROUTES.MAINSCREEN} component={TicketSurvey} />
         <Route path={ROUTES.TICKETSPINNER} component={TicketSpinner} />
         <Route path={ROUTES.TICKETDISPLAY} component={TicketDisplay} />
+        <Route
+          path={ROUTES.MOBILE_TICKETDISPLAY}
+          component={MobileTicketDisplay}
+        />
       </Switch>
     </section>
   );

@@ -1,5 +1,5 @@
 import QRCode from 'react-qr-code';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Header from '../Header/Header';
 import styles from './TicketDetails.module.css';
 
@@ -13,8 +13,17 @@ importAll(require.context('../../data/imgs', false, /^.*\.png$/, 'sync'));
 
 console.log('dynamic image import cache', cache);
 
+const MOBILE_TICKET_BASE_URL =
+  process.env.REACT_APP_MOBILE_TICKET_BASE_URL ||
+  'https://interimaginary-ticket-kiosk.vercel.app';
+
 const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
   const ticketImageName = `./${ticketDestination}.png`;
+
+  const mobileTicketUrl = useMemo(() => {
+    const encodedDestination = encodeURIComponent(ticketDestination);
+    return `${MOBILE_TICKET_BASE_URL}/mobileticket?destination=${encodedDestination}`;
+  }, [ticketDestination]);
 
   // log when the ticket has changed
   useEffect(() => {
@@ -38,7 +47,7 @@ const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
         <span className={styles.instructions}>
           If you’d like this printable ticket on your phone, scan this QR code
         </span>
-        <QRCode size={75} value={ticketURL} />
+        <QRCode size={75} value={mobileTicketUrl} />
       </div>
     </>
   );
