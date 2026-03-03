@@ -28,6 +28,7 @@
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "start:prod": "serve -s build",
+    "prebuild": "node scripts/copy-ticket-images.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -62,6 +63,7 @@
     "@storybook/react": "^6.1.0-beta.4",
     "babel-loader": "^8.1.0",
     "react-is": "^17.0.1",
+    "sharp": "^0.33.5",
     "storybook-react-router": "^1.0.8"
   },
   "resolutions": {

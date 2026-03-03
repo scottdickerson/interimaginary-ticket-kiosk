@@ -25,9 +25,18 @@ function App({ location }) {
     window.addEventListener('contextmenu', rightClickListener);
     return () => window.removeEventListener('contextmenu', rightClickListener);
   }, []);
+
+  const isMobileTicketPage = location.pathname.includes(ROUTES.MOBILE_TICKETDISPLAY);
+  useEffect(() => {
+    if (isMobileTicketPage) {
+      document.body.classList.add('mobile-ticket-page');
+      return () => document.body.classList.remove('mobile-ticket-page');
+    }
+  }, [isMobileTicketPage]);
   console.log('location.pathname', location.pathname);
+
   return (
-    <section className={styles.app}>
+    <section className={isMobileTicketPage ? undefined : styles.app}>
       {/* the reset delay is different between the two pages*/}
       <TicketPullScreen
         resetDelay={

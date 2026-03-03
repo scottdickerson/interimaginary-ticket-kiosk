@@ -1,16 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import styles from './MobileTicketDisplay.module.css';
-
-const cache = {};
-
-function importAll(r) {
-  r.keys().forEach(key => {
-    cache[key] = r(key);
-  });
-}
-
-importAll(require.context('../../data/imgs', false, /^.*\.png$/, 'sync'));
 
 const MobileTicketDisplay = ({ location }) => {
   const destination = useMemo(() => {
@@ -18,28 +8,39 @@ const MobileTicketDisplay = ({ location }) => {
     return params.get('destination');
   }, [location.search]);
 
+  useEffect(() => {
+    const t = setTimeout(() => {
+      window.scrollTo(0, 1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo(0, 0);
+        });
+      });
+    }, 300);
+    return () => clearTimeout(t);
+  }, []);
+
   if (!destination) {
     return (
       <div className={styles.mobileTicketDisplay}>
-        <div className={styles.message}>No ticket destination specified.</div>
+        <div className={styles.mobileTicketDisplayInner}>
+          <div className={styles.message}>No ticket destination specified.</div>
+        </div>
       </div>
     );
   }
 
-  const ticketImageName = `./${destination}.png`;
-  const ticketSrc = cache[ticketImageName]?.default;
+  const imageSrc = `/tickets/${encodeURIComponent(destination)}.png`;
 
   return (
     <div className={styles.mobileTicketDisplay}>
-      {ticketSrc ? (
+      <div className={styles.mobileTicketDisplayInner}>
         <img
           className={styles.ticketImage}
-          src={ticketSrc}
+          src={imageSrc}
           alt={`Ticket for ${destination}`}
         />
-      ) : (
-        <div className={styles.message}>Ticket image not found.</div>
-      )}
+      </div>
     </div>
   );
 };
