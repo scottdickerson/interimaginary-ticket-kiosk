@@ -10,7 +10,6 @@
 
 # production
 /build
-/public/tickets
 
 # misc
 .DS_Store

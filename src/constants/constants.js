@@ -3,7 +3,6 @@ export const ROUTES = {
   MAINSCREEN: '/main',
   TICKETSPINNER: '/ticket',
   TICKETDISPLAY: '/ticketdisplay',
-  MOBILE_TICKETDISPLAY: '/mobileticket',
 };
 
 export const ANIMATION_STATES = {

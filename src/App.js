@@ -6,7 +6,6 @@ import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
 import TicketSurvey from './containers/TicketSurvey/TicketSurvey';
 import TicketSpinner from './containers/TicketSpinner/TicketSpinner';
 import TicketDisplay from './containers/TicketDisplayScreen/TicketDisplayScreen';
-import MobileTicketDisplay from './containers/MobileTicketDisplay/MobileTicketDisplay';
 import { Helmet } from 'react-helmet';
 import bunnies from './containers/TicketSpinner/img/TransparentBunnies.png';
 import font from './fonts/Palatino.otf';
@@ -25,18 +24,10 @@ function App({ location }) {
     window.addEventListener('contextmenu', rightClickListener);
     return () => window.removeEventListener('contextmenu', rightClickListener);
   }, []);
-
-  const isMobileTicketPage = location.pathname.includes(ROUTES.MOBILE_TICKETDISPLAY);
-  useEffect(() => {
-    if (isMobileTicketPage) {
-      document.body.classList.add('mobile-ticket-page');
-      return () => document.body.classList.remove('mobile-ticket-page');
-    }
-  }, [isMobileTicketPage]);
   console.log('location.pathname', location.pathname);
 
   return (
-    <section className={isMobileTicketPage ? undefined : styles.app}>
+    <section className={styles.app}>
       {/* the reset delay is different between the two pages*/}
       <TicketPullScreen
         resetDelay={
@@ -55,10 +46,6 @@ function App({ location }) {
         <Route path={ROUTES.MAINSCREEN} component={TicketSurvey} />
         <Route path={ROUTES.TICKETSPINNER} component={TicketSpinner} />
         <Route path={ROUTES.TICKETDISPLAY} component={TicketDisplay} />
-        <Route
-          path={ROUTES.MOBILE_TICKETDISPLAY}
-          component={MobileTicketDisplay}
-        />
       </Switch>
     </section>
   );
