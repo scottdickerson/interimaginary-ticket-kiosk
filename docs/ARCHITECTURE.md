@@ -87,7 +87,7 @@ The app assumes the API is at `http://127.0.0.1:3002` (see `TicketSpinner.jsx` a
 - **Error board** — Button on pin 2 (pull-up). Press (LOW) sets error state and broadcasts to SSE clients; release (HIGH) clears it. Port from `ARDUINO_ERROR_PORT`. If no error board is connected, the server still runs and error state stays false.
 
 **Ticket data:**  
-`src/api/ticketReader.js` reads `src/data/21_12_07_Ticket_URLs - Sheet1.csv` (columns `DESTINATION`, `URL`), shuffles the rows, and returns one random destination. Destination images in `src/data/imgs/` are keyed by destination name (e.g. `Hogwarts.png`).
+`src/api/ticketReader.js` reads `src/data/21_12_07_Ticket_URLs - Sheet1.csv` (columns `DESTINATION`, `URL`). The CSV `URL` column stores **paths only** (e.g. `/abame/`, `hogwarts/`). The server builds full ticket URLs using `TICKET_BASE_URL` from env (default `http://interimaginarydepartures.com`). Destination images in `src/data/imgs/` are keyed by destination name (e.g. `Hogwarts.png`).
 
 ---
 
@@ -98,6 +98,8 @@ The app assumes the API is at `http://127.0.0.1:3002` (see `TicketSpinner.jsx` a
 - **TICKET_ALERT_EMAIL** — (Optional) Recipient for error-alert emails. Defaults to `TICKET_EMAIL` if not set.
 - **ARDUINO_PRINTER_PORT** — COM port for the Arduino that drives the ticket printer relay (e.g. `COM3` on Windows, `/dev/ttyUSB0` on Linux). Leave empty to auto-detect.
 - **ARDUINO_ERROR_PORT** — COM port for the Arduino used for error/normal input (button). Button LOW = error state; server broadcasts to SSE and skips printing. Also used by `scripts/test-button.js`. Leave empty to auto-detect.
+- **TICKET_BASE_URL** — Base URL for ticket QR codes (e.g. `http://interimaginarydepartures.com`). The CSV stores paths only; the server concatenates this base with the path. No trailing slash.
+- **REACT_APP_TICKET_BASE_URL** — Same base URL for the **client**; used only for the fallback default ticket when the server is unreachable. Set when building the React app so the fallback QR code uses the correct domain.
 
 ---
 

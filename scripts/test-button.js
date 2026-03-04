@@ -3,6 +3,8 @@
  * LOW  → error state
  * HIGH → normal state
  *
+ * On button press, sends an error alert email (same as server) if TICKET_EMAIL_PASSWORD is set.
+ *
  * Requires: Arduino with StandardFirmata uploaded.
  * Wiring: button between digital pin 2 and GND (internal pull-up).
  *
@@ -11,9 +13,34 @@
  */
 
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 const { Board, Button } = require('johnny-five');
 
 const BUTTON_PIN = 2;
+const ERROR_FROM_EMAIL = 'interimaginarydeparturesticket@gmail.com';
+const errorAlertTo =
+  process.env.TICKET_ALERT_EMAIL?.trim() || process.env.TICKET_EMAIL?.trim() || '';
+
+function sendErrorAlertEmail() {
+  const password = process.env.TICKET_EMAIL_PASSWORD?.trim();
+  if (!password || !errorAlertTo) {
+    console.log('skip error email: TICKET_EMAIL_PASSWORD or recipient not set');
+    return;
+  }
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: ERROR_FROM_EMAIL, pass: password },
+  });
+  transporter
+    .sendMail({
+      from: ERROR_FROM_EMAIL,
+      to: errorAlertTo,
+      subject: 'Ticket kiosk error state',
+      text: 'The ticket kiosk error button was pressed. Printing is disabled until the button is released.',
+    })
+    .then(() => console.log('Error alert email sent to', errorAlertTo))
+    .catch(err => console.error('Error sending alert email:', err.message));
+}
 
 const errorPort = process.env.ARDUINO_ERROR_PORT?.trim() || undefined;
 const board = new Board(Object.assign({ repl: false }, errorPort ? { port: errorPort } : {}));
@@ -39,7 +66,10 @@ board.on('ready', () => {
 
   setState(stateFromDown(button.isDown));
 
-  button.on('press', () => setState('ERROR'));
+  button.on('press', () => {
+    setState('ERROR');
+    sendErrorAlertEmail();
+  });
   button.on('release', () => setState('NORMAL'));
 
   console.log(
