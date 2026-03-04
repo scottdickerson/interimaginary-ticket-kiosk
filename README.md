@@ -2,12 +2,15 @@
 
 The ticket kiosk is a React-based app that connects to a local node server API that can interface with an Arduino board and ticket printer to print a ticket.
 
-Testing locally
+**[How this project works](docs/ARCHITECTURE.md)** — Architecture, user flow, API, and configuration.
+
+## Testing locally
+
 Start the UI server in development mode with `yarn start`
 Start the Ticket printing API with `node server.js`
 
 The email address is set from a local environment variable file called `TICKET_EMAIL`. Change the value in the `.env` file to change it.
-If you want to disable the Ticket printing screen set the `TICKET_PRINTER` variable to false
+Ticket printing is disabled automatically when the error-state button is pressed (see `docs/ARCHITECTURE.md`).
 
 ## Running in your local docker
 

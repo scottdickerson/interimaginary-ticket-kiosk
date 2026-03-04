@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, withRouter } from 'react-router';
 import { ROUTES } from './constants/constants';
 import TicketPullScreen from './containers/TicketPullScreen/TicketPullScreen';
@@ -19,6 +19,9 @@ const MAIN_SCREEN_PAGE_DELAY = 45000;
 
 function App({ location }) {
   console.log('location.pathname', location.pathname);
+  useEffect(() => {
+    window.addEventListener('contextmenu', evt => evt.preventDefault());
+  }, []);
   return (
     <section className={styles.app}>
       {/* the reset delay is different between the two pages*/}
@@ -27,8 +30,8 @@ function App({ location }) {
           location.pathname.includes(ROUTES.TICKETDISPLAY)
             ? TICKET_DETAILS_PAGE_DELAY
             : location.pathname.includes(ROUTES.TICKETSPINNER)
-            ? TICKET_SCREEN_PAGE_DELAY
-            : MAIN_SCREEN_PAGE_DELAY
+              ? TICKET_SCREEN_PAGE_DELAY
+              : MAIN_SCREEN_PAGE_DELAY
         }
       />
       <Helmet>

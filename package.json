@@ -12,6 +12,7 @@
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "johnny-five": "^2.1.0",
+    "nodemailer": "^6.9.14",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
@@ -29,7 +30,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public --no-dll",
-    "build-storybook": "build-storybook -s public --no-dll"
+    "build-storybook": "build-storybook -s public --no-dll",
+    "test:button": "node scripts/test-button.js",
+    "format:fix": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +61,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.1.0-beta.4",
     "babel-loader": "^8.1.0",
+    "prettier": "3.2.5",
     "react-is": "^17.0.1",
     "storybook-react-router": "^1.0.8"
   }

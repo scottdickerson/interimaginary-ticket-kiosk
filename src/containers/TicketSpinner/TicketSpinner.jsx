@@ -15,100 +15,79 @@ const SERVER_HOST = '127.0.0.1';
 
 const TicketSpinner = ({ history }) => {
   const [showText, setShowText] = useState(false);
-  // const [showErrorText, setShowErrorText] = useState(false);
 
   const [ticketEmail, setTicketEmail] = useState('interimaginary@austintexas.gov');
-  const [isPrinterConfigured, setIsPrinterConfigured] = useState();
+  const [errorState, setErrorState] = useState(false);
+  const [printerAvailable, setPrinterAvailable] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // load the email address and the ticket printer configuration
+  // Print only when not in error state and printer board is connected (from server SSE)
+  const canPrint = !errorState && printerAvailable;
+
+  // load the email address
   useEffect(() => {
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/email`, { method: 'GET' })
-      .then(response => {
-        // console.log('responseStatus', response.status, response.statusText);
-        return response.text();
-      })
+      .then(response => response.text())
       .then(email => {
-        console.log('got email', email);
-        if (email) {
-          setTicketEmail(email);
-        }
+        if (email) setTicketEmail(email);
       })
-      .catch(error => {
-        console.log('Error fetching email', error);
-        // setShowErrorText(true);
-      });
-    // get the ticket printer configuration
-    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/printerConfiguration`, { method: 'GET' })
-      .then(response => {
-        // console.log('responseStatus', response.status, response.statusText);
-        return response.text();
-      })
-      .then(printerConfiguration => {
-        console.log('got printerConfiguration', printerConfiguration);
-        if (printerConfiguration) {
-          setIsPrinterConfigured(printerConfiguration === 'true');
-        }
-      })
-      .catch(error => {
-        console.log('Error fetching printerConfiguration', error);
-        // setShowErrorText(true);
-      })
-      .finally(() => {
-        setIsLoaded(true);
-      });
+      .catch(error => console.log('Error fetching email', error));
   }, []);
 
+  // subscribe to server-sent events (error state + printer connection)
   useEffect(() => {
-    // if the printer really isn't configured, we will redirect to the visual ticket page after 30 seconds
-    if (isLoaded && !isPrinterConfigured) {
+    const eventSource = new EventSource(`http://${SERVER_HOST}:${SERVER_PORT}/events`);
+    eventSource.addEventListener('errorState', e => {
+      setErrorState(e.data === 'true');
+      setIsLoaded(true);
+    });
+    eventSource.addEventListener('printerAvailable', e => {
+      setPrinterAvailable(e.data === 'true');
+      setIsLoaded(true);
+    });
+    eventSource.onerror = () => {
+      setIsLoaded(true);
+    };
+    return () => eventSource.close();
+  }, []);
+
+  // when can't print (error state or printer disabled), redirect to visual ticket after delay
+  useEffect(() => {
+    if (isLoaded && !canPrint) {
       const displayRedirectTimer = setTimeout(() => {
         history.push(ROUTES.TICKETDISPLAY);
-      }, [SCREEN_TO_TICKETDISPLAY_TIMER]);
+      }, SCREEN_TO_TICKETDISPLAY_TIMER);
       return () => clearTimeout(displayRedirectTimer);
     }
-  }, [isLoaded, isPrinterConfigured, history]);
+  }, [isLoaded, canPrint, history]);
 
-  // print ticket after some time
+  // print ticket after some time (only when not error state and printer connected)
   useEffect(() => {
-    if (isPrinterConfigured) {
+    if (canPrint) {
       const printRelayClose = setTimeout(() => {
         console.log('Printing the ticket');
         setShowText(true);
-        // contact the server to close the switch
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/close`, {
           method: 'GET',
           mode: 'no-cors',
-        }).catch(error => {
-          console.log('Error printing ticket', error);
-          // setShowErrorText(true);
-        });
+        }).catch(error => console.log('Error printing ticket', error));
       }, TEXT_DELAY);
-      return () => {
-        clearTimeout(printRelayClose);
-      };
+      return () => clearTimeout(printRelayClose);
     }
-  }, [isPrinterConfigured]);
+  }, [canPrint]);
 
   // open the relay to stop the ticket printing
   useEffect(() => {
-    if (isPrinterConfigured) {
-      // Only open the print switch for 1 second
+    if (canPrint) {
       const printRelayOpen = setTimeout(() => {
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/open`, {
           method: 'GET',
           mode: 'no-cors',
-        }).catch(error => {
-          console.log('Error opening ticket relay', error);
-        });
+        }).catch(error => console.log('Error opening ticket relay', error));
       }, TEXT_DELAY + 1000);
-      // contact the server to open the switch
-
-      return () => {
-        clearTimeout(printRelayOpen);
-      };
+      return () => clearTimeout(printRelayOpen);
     }
-  }, [isPrinterConfigured]);
+  }, [canPrint]);
 
   return (
     <div className={styles.ticketSpinner}>

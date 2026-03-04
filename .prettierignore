@@ -1,0 +1,21 @@
+# dependencies and build
+node_modules
+.pnp
+.pnp.js
+build
+coverage
+
+# lock files
+package-lock.json
+yarn.lock
+
+# env and logs
+.env
+.env.*
+*.log
+
+# misc
+.DS_Store
+
+# Lottie JSON (generated/approved, do not reformat)
+src/components/BunnyAnimationRedux/BunnyAnimation-approved Lottie.json
