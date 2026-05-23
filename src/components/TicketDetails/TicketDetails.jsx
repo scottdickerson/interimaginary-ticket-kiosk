@@ -14,8 +14,7 @@ importAll(require.context('../../data/imgs', false, /^.*\.png$/, 'sync'));
 console.log('dynamic image import cache', cache);
 
 const MOBILE_TICKET_BASE_URL =
-  process.env.REACT_APP_MOBILE_TICKET_BASE_URL ||
-  'https://interimaginary-ticket-server.vercel.app';
+  process.env.REACT_APP_MOBILE_TICKET_BASE_URL || 'https://interimaginary-ticket-server.vercel.app';
 
 const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
   const ticketImageName = `./${ticketDestination}.png`;
@@ -23,7 +22,7 @@ const TicketDetails = ({ ticketURL, ticketDestination, onBack, onClose }) => {
   const mobileTicketUrl = useMemo(() => {
     const encodedDestination = encodeURIComponent(ticketDestination);
     const base = MOBILE_TICKET_BASE_URL.replace(/\/$/, '');
-    return `${base}?destination=${encodedDestination}`;
+    return `${base}/tickets/${encodedDestination}.pdf`;
   }, [ticketDestination]);
 
   // log when the ticket has changed

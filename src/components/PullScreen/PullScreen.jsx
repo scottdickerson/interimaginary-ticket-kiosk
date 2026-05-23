@@ -11,36 +11,67 @@ class PullScreen extends React.Component {
     onReset: PropTypes.func.isRequired,
     resetDelay: PropTypes.number,
     isVisible: PropTypes.bool,
+    inactivityTracking: PropTypes.bool,
   };
 
   static defaultProps = {
     resetDelay: 45000,
     isVisible: true,
+    inactivityTracking: false,
   };
 
   componentDidMount() {
-    this.touchListener = document.body.addEventListener('touchstart', this.handleReset);
-    this.clickListener = document.body.addEventListener('click', this.handleReset);
+    this.syncInactivityTracking();
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('touchstart', this.touchListener);
-    document.body.removeEventListener('click', this.clickListener);
+    this.detachInactivityListeners();
+    clearTimeout(this.resetTimer);
   }
-  // if the reset Delay changes then switch it
+
   componentDidUpdate(prevProps) {
-    if (this.props.resetDelay !== prevProps.resetDelay) {
-      console.log(
-        'the reset delay switched so I am resetting the timer new reset delay: ',
-        this.props.resetDelay
-      );
-      this.handleReset();
+    this.syncInactivityTracking(prevProps);
+
+    // Route/delay changes should not start a countdown — only user interaction should
+    if (this.props.inactivityTracking && this.props.resetDelay !== prevProps.resetDelay) {
+      clearTimeout(this.resetTimer);
     }
   }
-  handleReset = () => {
+
+  syncInactivityTracking(prevProps = {}) {
+    const tracking = this.props.inactivityTracking;
+    const wasTracking = prevProps.inactivityTracking;
+
+    if (tracking && !wasTracking) {
+      this.attachInactivityListeners();
+    } else if (!tracking && wasTracking) {
+      this.detachInactivityListeners();
+      clearTimeout(this.resetTimer);
+    }
+  }
+
+  attachInactivityListeners() {
+    if (this.touchListener) return;
+    this.touchListener = () => this.handleInactivity();
+    this.clickListener = () => this.handleInactivity();
+    document.body.addEventListener('touchstart', this.touchListener);
+    document.body.addEventListener('click', this.clickListener);
+  }
+
+  detachInactivityListeners() {
+    if (!this.touchListener) return;
+    document.body.removeEventListener('touchstart', this.touchListener);
+    document.body.removeEventListener('click', this.clickListener);
+    this.touchListener = null;
+    this.clickListener = null;
+  }
+
+  handleInactivity = () => {
+    if (!this.props.inactivityTracking) return;
+
     const { resetDelay, onReset } = this.props;
     clearTimeout(this.resetTimer);
-    console.log('resetting reset timer to: ', resetDelay, ' someone clicked or we switched pages');
+    console.log('resetting reset timer to: ', resetDelay, ' after user interaction');
     this.resetTimer = setTimeout(onReset, resetDelay);
   };
 

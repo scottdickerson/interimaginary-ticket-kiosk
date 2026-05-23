@@ -2,13 +2,15 @@ import bunnyVideo from '../BunnyAnimationRedux/IID-bunny-animation-no-alpha.mp4'
 import React, { useEffect, useRef } from 'react';
 import styles from './BunnyAnimation.module.css';
 
+const BUNNY_PLAYBACK_RATE = parseFloat(process.env.REACT_APP_BUNNY_PLAYBACK_RATE) || 1.5;
+
 const BunnyAnimationRedux = ({ isStarted, onFinished }) => {
   const videoRef = useRef();
   useEffect(() => {
     if (videoRef.current) {
       if (isStarted) {
         videoRef.current.play();
-        videoRef.current.playbackRate = 1.5;
+        videoRef.current.playbackRate = BUNNY_PLAYBACK_RATE;
       } else {
         videoRef.current.pause();
       }

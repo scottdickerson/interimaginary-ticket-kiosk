@@ -14,18 +14,22 @@ const TicketPullScreen = ({ history, location, resetDelay }) => {
     history.push(ROUTES.PULLSCREEN);
   };
 
+  const isFrontScreen = location?.pathname === ROUTES.PULLSCREEN;
+
   return (
     <PullScreen
       onReset={handleReset}
+      onClick={isFrontScreen ? handleClick : undefined}
       resetDelay={resetDelay}
-      isVisible={location?.pathname === ROUTES.PULLSCREEN}>
+      isVisible={isFrontScreen}
+      inactivityTracking={!isFrontScreen}>
       <div className={styles.ticketPullScreen}>
         <h1 className={styles.title}>Hello...</h1>
         <p className={styles.description}>
           You can receive a ticket here<br></br>
           but first we have to ask you a few questions
         </p>
-        <button className={styles.button} onClick={handleClick}>
+        <button type="button" className={styles.button}>
           <div className={styles.callToAction}>
             OK
             <br /> let&prime;s begin

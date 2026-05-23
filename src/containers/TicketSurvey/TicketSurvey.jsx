@@ -198,7 +198,7 @@ const questions = [
   },
 ];
 
-const TicketSurvey = ({ history }) => {
+const TicketSurvey = ({ history, isPrinterConfigured, isLoaded }) => {
   console.log('total questions', questions?.length);
   const selectedQuestions = useMemo(
     () => [
@@ -223,6 +223,10 @@ const TicketSurvey = ({ history }) => {
     history.push(ROUTES.PULLSCREEN);
   };
   const handleFinished = () => {
+    if (isLoaded && !isPrinterConfigured) {
+      history.push(ROUTES.TICKETDISPLAY);
+      return;
+    }
     history.push(ROUTES.TICKETSPINNER);
   };
   return (
