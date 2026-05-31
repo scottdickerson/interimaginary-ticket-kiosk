@@ -14,15 +14,17 @@ var five = require('johnny-five');
  *
  * Wiring:
  *
- * - PRINTER_ERROR_BUTTON_PIN: Pin 2 is wired to the momentary contact closure / printer error button
+ * - PRINTER_ERROR_BUTTON_PIN: Pin 10 is wired to the momentary contact closure / printer error button
  * - LIGHT_PIN: Pin 8 is the ERROR indicator relay to show the light when the printer is in error mode
  * - RELAY_PIN: Pin 7 is wired to the printer relay to print the ticket once the ticket screen is reached
  */
 
 // Pin wired to the momentary contact closure / printer error button
-const PRINTER_ERROR_BUTTON_PIN = 2;
+const PRINTER_ERROR_BUTTON_PIN = 10;
 // Pin wired to the feedback indicator relay (light)
 const LIGHT_PIN = 8;
+// Pin wired to the printer relay to print the ticket
+const PRINTER_RELAY_PIN = 7;
 
 // initialize the arduino
 const board = new five.Board();
@@ -49,7 +51,7 @@ function broadcastPrinterStatus() {
 // wait for the board to initialize and then setup the printerswitch
 board.on('ready', () => {
   console.log('board is ready!');
-  PrinterSwitch = new five.Relay(7);
+  PrinterSwitch = new five.Relay(PRINTER_RELAY_PIN);
   LightRelay = new five.Relay(LIGHT_PIN);
   // Default to not printing until the app explicitly closes the relay
   PrinterSwitch.open();

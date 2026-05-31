@@ -12,12 +12,12 @@ const DiagnosticPanel = ({ isPrinterConfigured, isLoaded }) => {
     ? styles.print
     : styles.digital;
 
-  return (
+  return isLoaded && !isPrinterConfigured ? (
     <div className={styles.panel}>
       <span className={`${styles.dot} ${indicator}`} />
-      <span className={styles.label}>{mode}</span>
+      {/* <span className={styles.label}>{mode}</span> */}
     </div>
-  );
+  ) : null;
 };
 
 export default DiagnosticPanel;

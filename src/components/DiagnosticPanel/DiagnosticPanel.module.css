@@ -1,10 +1,10 @@
 .panel {
   position: absolute;
-  bottom: 8px;
-  right: 10px;
+  bottom: 16px;
+  right: 16px;
   gap: 6px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: flex-end;
   padding: 3px 8px;
   border: 1px solid rgba(255, 255, 255, 0.12);
