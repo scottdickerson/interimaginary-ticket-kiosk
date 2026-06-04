@@ -92,7 +92,7 @@ function App({ location }) {
         />
         <Route path={ROUTES.TICKETDISPLAY} component={TicketDisplay} />
       </Switch>
-      {SHOW_DIAGNOSTICS && (
+      {SHOW_DIAGNOSTICS && location.pathname === ROUTES.PULLSCREEN && (
         <DiagnosticPanel isPrinterConfigured={isPrinterConfigured} isLoaded={isLoaded} />
       )}
     </section>
