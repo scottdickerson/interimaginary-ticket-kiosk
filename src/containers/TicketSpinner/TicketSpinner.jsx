@@ -29,15 +29,18 @@ const TicketSpinner = ({ history, isPrinterConfigured }) => {
       });
   }, []);
 
-  // If the printer error button is pressed mid-print, fall back to digital ticket
-  const prevPrinterConfiguredRef = useRef(isPrinterConfigured);
-  useEffect(() => {
-    if (prevPrinterConfiguredRef.current === true && !isPrinterConfigured) {
-      console.log('Printer error detected during spinner — switching to digital ticket');
-      history.push(ROUTES.TICKETDISPLAY);
-    }
-    prevPrinterConfiguredRef.current = isPrinterConfigured;
-  }, [isPrinterConfigured, history]);
+  // Latch: becomes true only once we've confirmed the printer is OK during this spinner session.
+  // That way an SSE flip from true → false redirects, but starting in error state never does.
+  // const printerHasBeenOkRef = useRef(isPrinterConfigured === true);
+  // useEffect(() => {
+  //   if (isPrinterConfigured === true) {
+  //     printerHasBeenOkRef.current = true;
+  //   }
+  //   if (printerHasBeenOkRef.current && isPrinterConfigured === false) {
+  //     console.log('Printer error detected during spinner — switching to digital ticket');
+  //     history.push(ROUTES.TICKETDISPLAY);
+  //   }
+  // }, [isPrinterConfigured, history]);
 
   // Server closes the relay, holds, then opens — not handled in the client
   useEffect(() => {
@@ -49,7 +52,7 @@ const TicketSpinner = ({ history, isPrinterConfigured }) => {
           .then(() => console.log('Print ticket cycle started'))
           .catch(error => {
             console.log('Error starting print ticket cycle — falling back to digital ticket', error);
-            history.push(ROUTES.TICKETDISPLAY);
+            // history.push(ROUTES.TICKETDISPLAY);
           });
       } else {
         console.log('Printer not configured — skipping print, advancing to ticket display');

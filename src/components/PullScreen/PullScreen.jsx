@@ -35,6 +35,7 @@ class PullScreen extends React.Component {
     // Route/delay changes should not start a countdown — only user interaction should
     if (this.props.inactivityTracking && this.props.resetDelay !== prevProps.resetDelay) {
       clearTimeout(this.resetTimer);
+      this.handleInactivity();
     }
   }
 
@@ -56,6 +57,8 @@ class PullScreen extends React.Component {
     this.clickListener = () => this.handleInactivity();
     document.body.addEventListener('touchstart', this.touchListener);
     document.body.addEventListener('click', this.clickListener);
+    // Start the timer immediately so the page always auto-resets even with no interaction
+    this.handleInactivity();
   }
 
   detachInactivityListeners() {

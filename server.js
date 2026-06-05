@@ -61,6 +61,8 @@ board.on('ready', () => {
   // Set initial state from current button reading (pressed = error = not ok)
   printerOk = !printerErrorButton.isPressed;
   console.log(`initial printer status: ${printerOk ? 'ok' : 'error (button pressed)'}`);
+  // Push the real state to any clients that connected before the board was ready
+  broadcastPrinterStatus();
 
   printerErrorButton.on('press', () => {
     console.log('Printer error button pressed — switching to non-printing mode');
