@@ -29,7 +29,7 @@ const MAIN_SCREEN_PAGE_DELAY = 45000;
 const SHOW_DIAGNOSTICS = process.env.REACT_APP_SHOW_DIAGNOSTICS === 'true';
 
 function App({ location }) {
-  const [isPrinterConfigured, setIsPrinterConfigured] = useState(true);
+  const [isPrinterConfigured, setIsPrinterConfigured] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {

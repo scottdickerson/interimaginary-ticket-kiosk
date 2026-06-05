@@ -29,22 +29,31 @@ const TicketSpinner = ({ history, isPrinterConfigured }) => {
       });
   }, []);
 
+  // If the printer error button is pressed mid-print, fall back to digital ticket
+  const prevPrinterConfiguredRef = useRef(isPrinterConfigured);
   useEffect(() => {
-    if (!isPrinterConfigured) {
-      fetch(`http://${SERVER_HOST}:${SERVER_PORT}/open`, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+    if (prevPrinterConfiguredRef.current === true && !isPrinterConfigured) {
+      console.log('Printer error detected during spinner — switching to digital ticket');
       history.push(ROUTES.TICKETDISPLAY);
     }
+    prevPrinterConfiguredRef.current = isPrinterConfigured;
   }, [isPrinterConfigured, history]);
 
   // Server closes the relay, holds, then opens — not handled in the client
   useEffect(() => {
     const printTimer = setTimeout(() => {
+      setShowText(true);
       if (isPrinterConfiguredRef.current) {
         console.log('Starting print relay cycle');
-        setShowText(true);
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/printTicket`, { method: 'GET', mode: 'no-cors' })
           .then(() => console.log('Print ticket cycle started'))
-          .catch(error => console.log('Error starting print ticket cycle', error));
+          .catch(error => {
+            console.log('Error starting print ticket cycle — falling back to digital ticket', error);
+            history.push(ROUTES.TICKETDISPLAY);
+          });
+      } else {
+        console.log('Printer not configured — skipping print, advancing to ticket display');
+        history.push(ROUTES.TICKETDISPLAY);
       }
     }, TEXT_DELAY);
 
@@ -64,11 +73,11 @@ const TicketSpinner = ({ history, isPrinterConfigured }) => {
             No ticket? Contact your Transcendental Ticket Agent: {ticketEmail}
           </h3>
         </>
-      ) : isPrinterConfigured ? (
+      ) : (
         <h2 className={classNames(styles.waitingForTicketText)}>
           We&prime;re working on your ticket.
         </h2>
-      ) : null}
+      )}
     </div>
   );
 };
