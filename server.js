@@ -57,6 +57,11 @@ board.on('ready', () => {
   PrinterSwitch.open();
 
   const printerErrorButton = new five.Button({ pin: PRINTER_ERROR_BUTTON_PIN, isPullup: true });
+
+  // Set initial state from current button reading (pressed = error = not ok)
+  printerOk = !printerErrorButton.isPressed;
+  console.log(`initial printer status: ${printerOk ? 'ok' : 'error (button pressed)'}`);
+
   printerErrorButton.on('press', () => {
     console.log('Printer error button pressed — switching to non-printing mode');
     printerOk = false;
@@ -109,6 +114,10 @@ app.get('/blink', (req, res) => {
 app.get('/light', (req, res) => {
   flashLight();
   res.end('light flashed');
+});
+
+app.get('/printer-status', (req, res) => {
+  res.json({ printerOk });
 });
 
 app.get('/printer-status-stream', (req, res) => {

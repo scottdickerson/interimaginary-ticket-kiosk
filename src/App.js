@@ -30,7 +30,7 @@ const SHOW_DIAGNOSTICS = process.env.REACT_APP_SHOW_DIAGNOSTICS === 'true';
 
 function App({ location }) {
   const [isPrinterConfigured, setIsPrinterConfigured] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // disable two-finger right click
@@ -39,22 +39,36 @@ function App({ location }) {
     return () => window.removeEventListener('contextmenu', rightClickListener);
   }, []);
 
-  // Subscribe to printer status from the Arduino button via SSE
+  // Fetch initial printer state, then subscribe to SSE for updates
   useEffect(() => {
-    const es = new EventSource(`http://${SERVER_HOST}:${SERVER_PORT}/printer-status-stream`);
+    let es;
 
-    es.onmessage = event => {
-      const { printerOk } = JSON.parse(event.data);
-      console.log('printer status update', printerOk);
-      setIsPrinterConfigured(printerOk);
-      setIsLoaded(true);
-    };
+    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/printer-status`)
+      .then(r => r.json())
+      .then(({ printerOk }) => {
+        console.log('initial printer status', printerOk);
+        setIsPrinterConfigured(printerOk);
+        setIsLoaded(true);
+      })
+      .catch(err => {
+        console.log('could not fetch initial printer status — assuming ok', err);
+        setIsLoaded(true);
+      })
+      .finally(() => {
+        es = new EventSource(`http://${SERVER_HOST}:${SERVER_PORT}/printer-status-stream`);
 
-    es.onerror = error => {
-      console.log('SSE connection error — staying in current mode', error);
-    };
+        es.onmessage = event => {
+          const { printerOk } = JSON.parse(event.data);
+          console.log('printer status update', printerOk);
+          setIsPrinterConfigured(printerOk);
+        };
 
-    return () => es.close();
+        es.onerror = error => {
+          console.log('SSE connection error — staying in current mode', error);
+        };
+      });
+
+    return () => es?.close();
   }, []);
 
   console.log('location.pathname', location.pathname);
