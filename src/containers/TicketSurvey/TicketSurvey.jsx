@@ -223,10 +223,6 @@ const TicketSurvey = ({ history, isPrinterConfigured, isLoaded }) => {
     history.push(ROUTES.PULLSCREEN);
   };
   const handleFinished = () => {
-    if (isLoaded && !isPrinterConfigured) {
-      history.push(ROUTES.TICKETDISPLAY);
-      return;
-    }
     history.push(ROUTES.TICKETSPINNER);
   };
   return (
