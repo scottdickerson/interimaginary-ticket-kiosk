@@ -1,110 +1,69 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './TicketSpinner.module.css';
-import { ROUTES } from '../../constants/constants';
 import bunnies from './img/TransparentBunnies.png';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
+import { ROUTES, SERVER_HOST, SERVER_PORT } from '../../constants/constants';
 
-const TEXT_DELAY = 20000;
-// const TEXT_DELAY = 5000;
-// wait for the text to show for 30 seconds
-const RESET_DELAY = TEXT_DELAY + 30000;
-//onst RESET_DELAY = 6000;
+const TEXT_DELAY = Number.parseInt(process.env.REACT_APP_TICKET_WORKING_DELAY_MS, 10) || 20000;
 
-const SERVER_PORT = 3002;
-const SERVER_HOST = '127.0.0.1';
+const TicketSpinner = ({ history, isPrinterConfigured }) => {
+  const isPrinterConfiguredRef = useRef(isPrinterConfigured);
+  isPrinterConfiguredRef.current = isPrinterConfigured;
 
-const TicketSpinner = ({ history, resetDelay }) => {
-  const resetTimer = useRef();
-  const handleReset = () => {
-    console.log('resetting to main page from ticket spinner');
-    history.push(ROUTES.PULLSCREEN);
-  };
-  const onReset = () => {
-    console.log('resetTimer called from ticket spinner');
-    handleReset();
-  };
-
-  // start a timer when the page renders
-  useEffect(() => {
-    if (resetTimer.current) {
-      console.log('cleared resetTimer in spinner');
-      clearTimeout(resetTimer.current);
-    }
-    console.log('resetTimer created in spinner with ', resetDelay);
-    resetTimer.current = setTimeout(onReset, resetDelay);
-    return () => {
-      if (resetTimer.current) {
-        console.log('cleared resetTimer in spinner');
-        clearTimeout(resetTimer.current);
-      }
-    };
-  }, []);
+  const [showText, setShowText] = useState(false);
+  // const [showErrorText, setShowErrorText] = useState(false);
 
   const [ticketEmail, setTicketEmail] = useState('interimaginary@austintexas.gov');
 
-  const [showText, setShowText] = useState(false);
-  // // const [showErrorText, setShowErrorText] = useState(false);
-  // // Go back to main screen after some time
-  // useEffect(() => {
-  //   // TODO: wait until the ticket actually prints, assume ticket prints in 5 seconds
-  //   const timeout = setTimeout(() => history.push(ROUTES.PULLSCREEN), TEXT_DELAY + 5000);
-  //   return () => clearTimeout(timeout);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // load the email address
+  // load email address
   useEffect(() => {
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/email`, { method: 'GET' })
-      .then(response => {
-        // console.log('responseStatus', response.status, response.statusText);
-        return response.text();
-      })
+      .then(response => response.text())
       .then(email => {
         console.log('got email', email);
-        if (email) {
-          setTicketEmail(email);
-        }
+        if (email) setTicketEmail(email);
       })
       .catch(error => {
         console.log('Error fetching email', error);
-        // setShowErrorText(true);
       });
   }, []);
 
-  // print ticket after some time
+  // Latch: becomes true only once we've confirmed the printer is OK during this spinner session.
+  // That way an SSE flip from true → false redirects, but starting in error state never does.
+  const printerHasBeenOkRef = useRef(isPrinterConfigured === true);
   useEffect(() => {
-    const printRelayClose = setTimeout(() => {
+    if (isPrinterConfigured === true) {
+      printerHasBeenOkRef.current = true;
+    }
+    if (printerHasBeenOkRef.current && isPrinterConfigured === false) {
+      console.log('Printer error detected during spinner — switching to digital ticket');
+      history.push(ROUTES.TICKETDISPLAY);
+    }
+  }, [isPrinterConfigured, history]);
+
+  // Server closes the relay, holds, then opens — not handled in the client
+  useEffect(() => {
+    const printTimer = setTimeout(() => {
       setShowText(true);
-      // contact the server to close the switch
-      fetch(`http://${SERVER_HOST}:${SERVER_PORT}/close`, { method: 'GET', mode: 'no-cors' }).catch(
-        error => {
-          console.log('Error printing ticket', error);
-          // setShowErrorText(true);
-        }
-      );
+      if (isPrinterConfiguredRef.current) {
+        console.log('Starting print relay cycle');
+        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/printTicket`, { method: 'GET', mode: 'no-cors' })
+          .then(() => console.log('Print ticket cycle started'))
+          .catch(error => {
+            console.log('Error starting print ticket cycle — falling back to digital ticket', error);
+            // history.push(ROUTES.TICKETDISPLAY);
+          });
+      } else {
+        console.log('Printer not configured — skipping print, advancing to ticket display');
+        history.push(ROUTES.TICKETDISPLAY);
+      }
     }, TEXT_DELAY);
-    return () => {
-      clearTimeout(printRelayClose);
-    };
+
+    return () => clearTimeout(printTimer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // open the relay to stop the ticket printing
-  useEffect(() => {
-    // Only open the print switch for 1 second
-    const printRelayOpen = setTimeout(() => {
-      fetch(`http://${SERVER_HOST}:${SERVER_PORT}/open`, { method: 'GET', mode: 'no-cors' }).catch(
-        error => {
-          console.log('Error opening ticket relay', error);
-        }
-      );
-    }, TEXT_DELAY + 1000);
-    // contact the server to open the switch
-
-    return () => {
-      clearTimeout(printRelayOpen);
-    };
-  }, []);
   return (
     <div className={styles.ticketSpinner}>
       <img width="350px" height="350px" src={bunnies} alt="Spinning bunnies" />
@@ -126,7 +85,4 @@ const TicketSpinner = ({ history, resetDelay }) => {
   );
 };
 
-TicketSpinner.defaultProps = {
-  resetDelay: RESET_DELAY,
-};
 export default withRouter(TicketSpinner);

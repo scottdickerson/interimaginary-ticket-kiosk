@@ -1,0 +1,41 @@
+.panel {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  gap: 6px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 3px 8px;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  width: 100%;
+  z-index: 9999;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.print {
+  background: #4ade80;
+  box-shadow: 0 0 5px #4ade80;
+}
+
+.digital {
+  background: red;
+  box-shadow: 0 0 5px red;
+}
+
+.connecting {
+  background: rgba(255, 255, 255, 0.35);
+}

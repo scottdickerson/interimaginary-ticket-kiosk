@@ -2,17 +2,23 @@
   "name": "interimaginary-ticket-kiosk",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.24.0",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "johnny-five": "^2.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
+    "react-qr-code": "^2.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
@@ -55,7 +61,11 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.1.0-beta.4",
     "babel-loader": "^8.1.0",
+    "cross-env": "^10.1.0",
     "react-is": "^17.0.1",
     "storybook-react-router": "^1.0.8"
+  },
+  "resolutions": {
+    "postcss-safe-parser/postcss": "8.0.9"
   }
 }

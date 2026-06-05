@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Survey.module.css';
 import Question from '../Question/Question';
-import back from './back.png';
-import close from './close.png';
+import Header from '../Header/Header';
 
 const propTypes = {
   /** an array of questions to ask */
@@ -20,24 +19,17 @@ const propTypes = {
 const Survey = ({ questions, onSurveyFinished, onClose, shouldAnimateBunny = true }) => {
   // keeps track of the current question
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const handleBack = useCallback(() => {
+    if (currentQuestion === 0) {
+      onClose();
+    } else {
+      setCurrentQuestion(question => question - 1);
+    }
+  }, [currentQuestion, onClose]);
+
   return (
     <div className={styles.survey}>
-      <header className={styles.header}>
-        <button
-          className={styles.surveyBackButton}
-          onClick={() => {
-            if (currentQuestion === 0) {
-              onClose();
-            } else {
-              setCurrentQuestion(question => question - 1);
-            }
-          }}>
-          <img height={28} src={back} alt="back" />
-        </button>
-        <button className={styles.surveyButton} onClick={() => onClose()}>
-          <img height={40} src={close} alt="close" />
-        </button>
-      </header>
+      <Header onBack={handleBack} onClose={onClose} />
       <Question
         className={styles.question}
         shouldAnimateBunny={shouldAnimateBunny}
