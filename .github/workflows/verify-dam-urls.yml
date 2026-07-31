@@ -18,7 +18,7 @@ name: Verify DAM URLs
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # 14:00 UTC daily (~9am ET / 8am CT)
+    - cron: '0 14 * * *' # 14:00 UTC daily (~9am ET / 8am CT)
   workflow_dispatch:
     inputs:
       force_fail:
