@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+# repo uses npm; yarn.lock is ignored to prevent lockfile drift
+yarn.lock
 
 # testing
 /coverage
