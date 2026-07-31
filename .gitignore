@@ -13,6 +13,12 @@ yarn.lock
 # production
 /build
 
+# playwright
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+
 # misc
 .DS_Store
 .env.local
