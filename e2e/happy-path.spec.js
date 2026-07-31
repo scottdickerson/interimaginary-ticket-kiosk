@@ -37,5 +37,24 @@ test.describe('kiosk happy path', () => {
 
     // 4. Confirm we reached the spinner
     await expect(page).toHaveURL(/\/ticket$/);
+
+    // 5. Spinner advances to ticket display (~100ms delay from
+    // REACT_APP_TICKET_WORKING_DELAY_MS, plus the SSE tick from
+    // /printer-status confirming printerOk=false).
+    await page.waitForURL(/\/ticketdisplay$/, { timeout: 15_000 });
+
+    // 6. Ticket display fetches GET /ticket from the server and renders
+    // a destination heading + a QR code (svg).
+    // react-qr-code v2.0.16 renders an <svg> whose viewBox size is the QR
+    // module count (varies by encoded URL length), so match by width/height
+    // instead — the component sets both to the `size` prop (75 here).
+    const qrCode = page.locator('svg[width="75"][height="75"]');
+    await expect(qrCode).toBeVisible();
+
+    // Verify the destination heading text is non-empty.
+    const destinationHeading = page.getByRole('heading').first();
+    await expect(destinationHeading).toBeVisible();
+    const destinationText = await destinationHeading.innerText();
+    expect(destinationText.trim().length).toBeGreaterThan(0);
   });
 });
