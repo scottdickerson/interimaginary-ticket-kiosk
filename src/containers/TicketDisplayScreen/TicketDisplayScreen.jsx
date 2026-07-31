@@ -35,7 +35,8 @@ const TicketQRCode = ({ history }) => {
           setTicketDetails({
             // set a default in case we can't access the server
             destinationName: 'Hogwarts',
-            destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
+            destinationTicketURL:
+              'https://austin.widen.net/view/pdf/7ffzei9dkg/Hogwarts.pdf?t.download=true&u=6bapu1',
           });
         }
       } catch (e) {
