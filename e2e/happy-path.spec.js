@@ -8,11 +8,34 @@ test.describe('kiosk happy path', () => {
     await expect(page.getByRole('heading', { name: /^Hello/ })).toBeVisible();
     await expect(page.getByText(/You can receive a ticket here/)).toBeVisible();
 
-    // 2. Any click on the pull screen advances to the survey.
-    // The whole PullScreen div receives onClick, so click the CTA button.
+    // 2. Advance to survey
     await page.getByRole('button', { name: /let.?s begin/i }).click();
     await expect(page).toHaveURL(/\/main$/);
-    // The survey shows a Question with an h2; wait for the first one to appear.
     await expect(page.locator('section > h2').first()).toBeVisible();
+
+    // 3. Walk through 6 questions.
+    // Each question has an h2 followed by 3 choice buttons rendered by SimpleChoiceRenderer.
+    // Selecting a choice starts a bunny progress animation; the next question
+    // renders once the animation's onFinished fires.
+    for (let i = 0; i < 6; i++) {
+      const previousQuestion = await page.locator('section > h2').first().innerText();
+
+      // Click the first choice available. All regular questions have 3 choices.
+      // Scope to the Question <section> (which has an h2 direct child) so we
+      // don't accidentally match the underlying PullScreen's button.
+      await page.locator('section:has(> h2) button').first().click();
+
+      // Wait for either the next question to render (h2 text changes) OR
+      // the URL to transition to /ticket. If it transitions, break the loop.
+      await Promise.race([
+        page.waitForURL(/\/ticket$/, { timeout: 30_000 }),
+        page.locator('section > h2').first().filter({ hasNotText: previousQuestion }).waitFor({ timeout: 30_000 }),
+      ]);
+
+      if (/\/ticket$/.test(page.url())) break;
+    }
+
+    // 4. Confirm we reached the spinner
+    await expect(page).toHaveURL(/\/ticket$/);
   });
 });
