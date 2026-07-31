@@ -1,11 +1,6 @@
 import styles from './DiagnosticPanel.module.css';
 
 const DiagnosticPanel = ({ isPrinterConfigured, isLoaded }) => {
-  const mode = !isLoaded
-    ? 'connecting…'
-    : isPrinterConfigured
-    ? 'PRINT TICKET MODE'
-    : 'DIGITAL TICKET MODE';
   const indicator = !isLoaded
     ? styles.connecting
     : isPrinterConfigured
