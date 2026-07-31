@@ -7,7 +7,7 @@ const path = require('path');
 const shuffle = require('lodash/shuffle');
 
 const TICKET_URL_FILE_NAME = 'DAM_URLs.csv';
-const SHARE_URL_COLUMN = 'Document View and Download=Public Share URL';
+const DOWNLOAD_URL_COLUMN = 'Download Link=Direct Download';
 
 const loadTicketFile = async () => {
   const ticketFilePath = path.join(__dirname, '..', 'data', TICKET_URL_FILE_NAME);
@@ -17,7 +17,7 @@ const loadTicketFile = async () => {
 
 const rowToTicket = row => ({
   destinationName: row.Filename.replace(/\.pdf$/i, ''),
-  destinationTicketURL: row[SHARE_URL_COLUMN],
+  destinationTicketURL: row[DOWNLOAD_URL_COLUMN],
 });
 
 const provideRandomTicket = async () => {
