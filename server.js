@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { provideRandomTicket } = require('./src/api/ticketReader.js');
+const { provideRandomTicket, provideTicketForDestination } = require('./src/api/ticketReader.js');
 
 var five = require('johnny-five');
 
@@ -145,6 +145,21 @@ app.get('/ticket', async (req, res, next) => {
     res.json(ticketDestination);
   } catch (e) {
     console.error('error getting random ticket', e);
+    next(e);
+  }
+});
+
+app.get('/ticket/:destination', async (req, res, next) => {
+  try {
+    const ticket = await provideTicketForDestination(req.params.destination);
+    if (!ticket) {
+      res.status(404).json({ error: `no ticket for destination "${req.params.destination}"` });
+      return;
+    }
+    console.log('returning ticket for destination', ticket);
+    res.status(200).json(ticket);
+  } catch (e) {
+    console.error('error getting ticket for destination', e);
     next(e);
   }
 });

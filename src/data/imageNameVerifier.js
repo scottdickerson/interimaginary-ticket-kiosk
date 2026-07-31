@@ -8,8 +8,9 @@ const verifyImageNames = async () => {
 
   const fileNames = fs.readdirSync(path.join(__dirname, 'imgs'));
   tickets.forEach(ticket => {
-    if (!fileNames.includes(`${ticket.DESTINATION}.png`)) {
-      console.error('ticket destination image missing', ticket.DESTINATION);
+    const destination = ticket.Filename.replace(/\.pdf$/i, '');
+    if (!fileNames.includes(`${destination}.png`)) {
+      console.error('ticket destination image missing', destination);
     }
   });
 };

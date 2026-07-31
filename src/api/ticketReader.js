@@ -6,7 +6,8 @@ const path = require('path');
 
 const shuffle = require('lodash/shuffle');
 
-const TICKET_URL_FILE_NAME = '21_12_07_Ticket_URLs - Sheet1.csv';
+const TICKET_URL_FILE_NAME = 'DAM_URLs.csv';
+const SHARE_URL_COLUMN = 'Document View and Download=Public Share URL';
 
 const loadTicketFile = async () => {
   const ticketFilePath = path.join(__dirname, '..', 'data', TICKET_URL_FILE_NAME);
@@ -14,19 +15,30 @@ const loadTicketFile = async () => {
   return ticketURLJSON;
 };
 
+const rowToTicket = row => ({
+  destinationName: row.Filename.replace(/\.pdf$/i, ''),
+  destinationTicketURL: row[SHARE_URL_COLUMN],
+});
+
 const provideRandomTicket = async () => {
   const ticketURLJSON = await loadTicketFile();
   console.log('ticket json', ticketURLJSON);
   const randomDestination = shuffle(ticketURLJSON).pop();
   console.log('ticket destination', randomDestination);
-  return {
-    destinationName: randomDestination.DESTINATION,
-    destinationTicketURL: randomDestination.URL,
-  };
+  return rowToTicket(randomDestination);
+};
+
+const provideTicketForDestination = async destination => {
+  const ticketURLJSON = await loadTicketFile();
+  const match = ticketURLJSON.find(
+    row => row.Filename.replace(/\.pdf$/i, '') === destination,
+  );
+  return match ? rowToTicket(match) : null;
 };
 
 module.exports = {
   provideRandomTicket,
+  provideTicketForDestination,
   loadTicketFile,
   TICKET_URL_FILE_NAME,
 };
