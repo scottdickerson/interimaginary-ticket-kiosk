@@ -31,21 +31,37 @@ const board = new five.Board();
 let PrinterSwitch;
 let LightRelay;
 let printRelayOpenTimer;
+let flashLightTimer;
 
 const TICKET_PRINT_HOLD_MS = Number.parseInt(process.env.TICKET_PRINT_HOLD_MS, 10) || 3000;
 
 function flashLight(durationMs = 500) {
+  clearTimeout(flashLightTimer);
   LightRelay?.close();
-  setTimeout(() => LightRelay?.open(), durationMs);
+  flashLightTimer = setTimeout(() => LightRelay?.open(), durationMs);
 }
 
 // SSE state — true means printer is OK, false means error detected
 let printerOk = process.env.TICKET_PRINTER !== 'false';
 let sseClients = [];
 
+function removeSseClient(res) {
+  sseClients = sseClients.filter(c => c !== res);
+}
+
 function broadcastPrinterStatus() {
   const payload = `data: ${JSON.stringify({ printerOk })}\n\n`;
-  sseClients.forEach(client => client.write(payload));
+  const dead = [];
+  sseClients.forEach(client => {
+    try {
+      client.write(payload);
+    } catch (e) {
+      dead.push(client);
+    }
+  });
+  if (dead.length) {
+    sseClients = sseClients.filter(c => !dead.includes(c));
+  }
 }
 
 board.on('fail', (event) => {
@@ -136,12 +152,18 @@ app.get('/printer-status-stream', (req, res) => {
   res.flushHeaders();
 
   // Send current state immediately so the client knows on connect
-  res.write(`data: ${JSON.stringify({ printerOk })}\n\n`);
+  try {
+    res.write(`data: ${JSON.stringify({ printerOk })}\n\n`);
+  } catch (e) {
+    return;
+  }
 
   sseClients.push(res);
-  req.on('close', () => {
-    sseClients = sseClients.filter(c => c !== res);
-  });
+  const onEnd = () => removeSseClient(res);
+  req.on('close', onEnd);
+  req.on('error', onEnd);
+  res.on('error', onEnd);
+  res.on('close', onEnd);
 });
 
 app.get('/ticket', async (req, res, next) => {

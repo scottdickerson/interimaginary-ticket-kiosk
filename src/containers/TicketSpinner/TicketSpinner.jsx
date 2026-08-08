@@ -18,15 +18,23 @@ const TicketSpinner = ({ history, isPrinterConfigured }) => {
 
   // load email address
   useEffect(() => {
-    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/email`, { method: 'GET' })
+    const controller = new AbortController();
+
+    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/email`, {
+      method: 'GET',
+      signal: controller.signal,
+    })
       .then(response => response.text())
       .then(email => {
         console.log('got email', email);
         if (email) setTicketEmail(email);
       })
       .catch(error => {
+        if (error.name === 'AbortError') return;
         console.log('Error fetching email', error);
       });
+
+    return () => controller.abort();
   }, []);
 
   // Latch: becomes true only once we've confirmed the printer is OK during this spinner session.

@@ -42,11 +42,17 @@ const Animation = ({
   const totalPauseTime = useRef(0);
   // Have to use a ref here for isPlaying so that it gets picked up in the recursive determineFrame calls
   const isPlaying = useRef(state === ANIMATION_STATES.PLAYING);
+  const rafId = useRef(null);
   // Start the frame at 0
   const [currentFrame, setCurrentFrame] = useState(0);
 
   /** callback on animation to determine the current frame to show */
   const determineFrame = timestamp => {
+    if (!isPlaying.current) {
+      rafId.current = null;
+      return;
+    }
+
     if (startTime?.current === undefined) {
       // Keep track of the original start time of the animation to calculate the offsets
       startTime.current = timestamp;
@@ -79,9 +85,6 @@ const Animation = ({
     }
 
     setCurrentFrame(currentFrame => {
-      if (isPlaying.current) {
-        window.requestAnimationFrame(determineFrame);
-      }
       if (currentFrame !== nextFrame) {
         console.log(
           `timestamp: ${timestamp} currentFrame: ${currentFrame} nextFrame: ${nextFrame}`
@@ -89,17 +92,35 @@ const Animation = ({
       }
       return currentFrame !== nextFrame ? nextFrame : currentFrame;
     });
+
+    if (isPlaying.current) {
+      rafId.current = window.requestAnimationFrame(determineFrame);
+    } else {
+      rafId.current = null;
+    }
   };
 
   // Kick off the initial animation, it should continue recursively
   useEffect(() => {
     if (state === ANIMATION_STATES.PLAYING) {
-      window.requestAnimationFrame(determineFrame);
       isPlaying.current = true;
+      rafId.current = window.requestAnimationFrame(determineFrame);
     } else {
       // flip the reference to stop the playing
       isPlaying.current = false;
+      if (rafId.current != null) {
+        window.cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
     }
+
+    return () => {
+      isPlaying.current = false;
+      if (rafId.current != null) {
+        window.cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
