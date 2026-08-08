@@ -48,6 +48,13 @@ function broadcastPrinterStatus() {
   sseClients.forEach(client => client.write(payload));
 }
 
+board.on('fail', (event) => {
+  console.error('board failed to initialize', event);
+  printerOk = false;
+  broadcastPrinterStatus();
+  LightRelay?.close();
+});
+
 // wait for the board to initialize and then setup the printerswitch
 board.on('ready', () => {
   console.log('board is ready!');
