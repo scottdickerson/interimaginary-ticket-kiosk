@@ -1,5 +1,5 @@
 {
-  "installCommand": "yarn install --force --ignore-optional",
-  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider yarn run build",
+  "installCommand": "npm i",
+  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider npm run build",
   "outputDirectory": "build"
 }

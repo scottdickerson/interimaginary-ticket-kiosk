@@ -41,21 +41,31 @@ function App({ location }) {
 
   // Fetch initial printer state, then subscribe to SSE for updates
   useEffect(() => {
+    let cancelled = false;
     let es;
 
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/printer-status`)
       .then(r => r.json())
       .then(({ printerOk }) => {
+        if (cancelled) return;
         console.log('initial printer status', printerOk);
         setIsPrinterConfigured(printerOk);
         setIsLoaded(true);
       })
       .catch(err => {
+        if (cancelled) return;
         console.log('could not fetch initial printer status — assuming ok', err);
         setIsLoaded(true);
       })
       .finally(() => {
+        if (cancelled) return;
         es = new EventSource(`http://${SERVER_HOST}:${SERVER_PORT}/printer-status-stream`);
+        // Cleanup may have run between the cancelled check and EventSource construction
+        if (cancelled) {
+          es.close();
+          es = undefined;
+          return;
+        }
 
         es.onmessage = event => {
           const { printerOk } = JSON.parse(event.data);
@@ -68,7 +78,10 @@ function App({ location }) {
         };
       });
 
-    return () => es?.close();
+    return () => {
+      cancelled = true;
+      es?.close();
+    };
   }, []);
 
   console.log('location.pathname', location.pathname);

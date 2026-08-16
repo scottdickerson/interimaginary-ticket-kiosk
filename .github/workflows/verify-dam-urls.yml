@@ -1,0 +1,92 @@
+# Daily verifier for the Widen/Acquia DAM URLs used by the ticket kiosk.
+# Runs src/data/urlVerifier.js against every row in src/data/DAM_URLs.csv:
+#   - fetches the direct-download URL, confirms HTTP 200 + %PDF- magic bytes + filename match
+#   - fetches the public share URL, confirms HTTP 200
+#   - checks that the local PNG thumbnail exists for the destination
+#
+# On any failure, emails NOTIFY_EMAIL via Gmail SMTP.
+#
+# Required repo secrets (Settings > Secrets and variables > Actions):
+#   NOTIFY_EMAIL   Recipient address for failure notifications
+#   SMTP_USER      Gmail address used to send from (e.g., yourname@gmail.com)
+#   SMTP_PASS      Gmail App Password (https://myaccount.google.com/apppasswords - NOT your login password)
+#
+# If any of the three secrets are unset, the email step is skipped but the workflow still
+# fails, so GitHub's built-in workflow-failure notification still reaches the repo owner.
+
+name: Verify DAM URLs
+
+on:
+  schedule:
+    - cron: '0 14 * * *' # 14:00 UTC daily (~9am ET / 8am CT)
+  workflow_dispatch:
+    inputs:
+      force_fail:
+        description: 'Force a synthetic failure (tests the notification/email path without touching real data)'
+        type: boolean
+        default: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run DAM URL verifier
+        id: verify
+        env:
+          FORCE_FAIL: ${{ inputs.force_fail }}
+        run: |
+          if [ "$FORCE_FAIL" = "true" ]; then
+            echo "::warning::force_fail=true - simulating a verifier failure to test the notification path"
+            echo "  FAIL simulated-destination"
+            echo "         - synthetic failure triggered by workflow_dispatch input"
+            echo ""
+            echo "=== SUMMARY: 0 ok, 1 failed (simulated) ==="
+            exit 1
+          fi
+          node src/data/urlVerifier.js
+
+      - name: Check notification setup
+        if: failure() && steps.verify.conclusion == 'failure'
+        id: notify_setup
+        env:
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: |
+          if [ -z "$NOTIFY_EMAIL" ] || [ -z "$SMTP_USER" ] || [ -z "$SMTP_PASS" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Email skipped - one of NOTIFY_EMAIL, SMTP_USER, SMTP_PASS is unset."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Email on failure
+        if: failure() && steps.notify_setup.outputs.ready == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          from: DAM Verifier <${{ secrets.SMTP_USER }}>
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          subject: '[DAM verifier] ${{ github.repository }} run #${{ github.run_number }} failed'
+          body: |
+            The scheduled DAM URL verifier detected broken links.
+
+            Repository: ${{ github.repository }}
+            Run:        ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Commit:     ${{ github.sha }}
+            Ref:        ${{ github.ref }}
+
+            See the run logs for the specific failed URLs and reasons.

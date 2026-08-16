@@ -19,13 +19,18 @@ const TicketQRCode = ({ history }) => {
   }, [history]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    let cancelled = false;
+
     const loadTicketDetails = async () => {
       try {
         const randomTicketResponse = await axios({
           url: `http://${SERVER_HOST}:${SERVER_PORT}/ticket`,
           method: 'GET',
           responseType: 'json',
+          signal: controller.signal,
         });
+        if (cancelled) return;
         if (randomTicketResponse?.data) {
           const ticketDetails = randomTicketResponse?.data;
           console.log('Loaded ticket Details: ', ticketDetails);
@@ -35,10 +40,14 @@ const TicketQRCode = ({ history }) => {
           setTicketDetails({
             // set a default in case we can't access the server
             destinationName: 'Hogwarts',
-            destinationTicketURL: 'http://interimaginarydepartures.com/hogwarts/',
+            destinationTicketURL:
+              'https://austin.widen.net/view/pdf/7ffzei9dkg/Hogwarts.pdf?t.download=true&u=6bapu1',
           });
         }
       } catch (e) {
+        if (cancelled || axios.isCancel(e) || e.name === 'AbortError' || e.code === 'ERR_CANCELED') {
+          return;
+        }
         console.error('Error loading ticket Details', e);
         setTicketDetails({
           // set a default in case we can't access the server
@@ -48,6 +57,11 @@ const TicketQRCode = ({ history }) => {
       }
     };
     loadTicketDetails();
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, []);
 
   return ticketDetails ? (
