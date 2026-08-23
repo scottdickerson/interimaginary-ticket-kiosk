@@ -52,9 +52,9 @@ const verifyDestination = async row => {
         responseType: 'text',
         validateStatus: () => true,
       });
-      if (res.status !== 200) problems.push(`share URL status ${res.status}`);
+      if (res.status !== 200) problems.push(`share URL status ${res.status}: ${shareUrl}`);
     } catch (e) {
-      problems.push(`share URL fetch failed: ${e.code || e.message}`);
+      problems.push(`share URL fetch failed (${e.code || e.message}): ${shareUrl}`);
     }
   }
 
@@ -67,7 +67,7 @@ const verifyDestination = async row => {
         validateStatus: () => true,
       });
       if (res.status !== 200) {
-        problems.push(`download URL status ${res.status}`);
+        problems.push(`download URL status ${res.status}: ${downloadUrl}`);
       } else {
         const head = Buffer.from(res.data.slice(0, 5)).toString('ascii');
         if (head !== '%PDF-') problems.push(`download URL is not a PDF (leading bytes: ${JSON.stringify(head)})`);
@@ -79,7 +79,7 @@ const verifyDestination = async row => {
         }
       }
     } catch (e) {
-      problems.push(`download URL fetch failed: ${e.code || e.message}`);
+      problems.push(`download URL fetch failed (${e.code || e.message}): ${downloadUrl}`);
     }
   }
 
@@ -106,6 +106,13 @@ const verifyAll = async () => {
   console.log(`=== SUMMARY: ${results.length - failed.length} ok, ${failed.length} failed ===`);
   if (failed.length > 0) {
     failed.forEach(r => console.log(`  FAIL ${r.destination}: ${r.problems.join('; ')}`));
+
+    // Hand the failure list to the workflow so the notification email can name the broken links.
+    if (process.env.GITHUB_OUTPUT) {
+      const report = failed.map(r => `- ${r.destination}:\n    ${r.problems.join('\n    ')}`).join('\n');
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, `failures<<DAM_EOF\n${report}\nDAM_EOF\n`);
+    }
+
     process.exitCode = 1;
   }
 };

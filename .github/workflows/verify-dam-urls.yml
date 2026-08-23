@@ -7,7 +7,7 @@
 # On any failure, emails NOTIFY_EMAIL via Gmail SMTP.
 #
 # Required repo secrets (Settings > Secrets and variables > Actions):
-#   NOTIFY_EMAIL   Recipient address for failure notifications
+#   NOTIFY_EMAIL   Recipient address(es) for failure notifications; comma-separate for multiple (e.g. a@x.com,b@y.com)
 #   SMTP_USER      Gmail address used to send from (e.g., yourname@gmail.com)
 #   SMTP_PASS      Gmail App Password (https://myaccount.google.com/apppasswords - NOT your login password)
 #
@@ -50,6 +50,12 @@ jobs:
             echo "         - synthetic failure triggered by workflow_dispatch input"
             echo ""
             echo "=== SUMMARY: 0 ok, 1 failed (simulated) ==="
+            {
+              echo "failures<<DAM_EOF"
+              echo "- simulated-destination:"
+              echo "    synthetic failure triggered by workflow_dispatch input"
+              echo "DAM_EOF"
+            } >> "$GITHUB_OUTPUT"
             exit 1
           fi
           node src/data/urlVerifier.js
@@ -89,4 +95,7 @@ jobs:
             Commit:     ${{ github.sha }}
             Ref:        ${{ github.ref }}
 
-            See the run logs for the specific failed URLs and reasons.
+            Failing links:
+            ${{ steps.verify.outputs.failures }}
+
+            See the run logs for the full output.
