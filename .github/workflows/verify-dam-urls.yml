@@ -4,7 +4,9 @@
 #   - fetches the public share URL, confirms HTTP 200
 #   - checks that the local PNG thumbnail exists for the destination
 #
-# On any failure, emails NOTIFY_EMAIL via Gmail SMTP.
+# On a failure, emails NOTIFY_EMAIL via Gmail SMTP - but only when the state changed
+# (previous scheduled run was not already failing), so a sustained outage emails once,
+# not once per day. Manual (workflow_dispatch) runs always email.
 #
 # Required repo secrets (Settings > Secrets and variables > Actions):
 #   NOTIFY_EMAIL   Recipient address(es) for failure notifications; comma-separate for multiple (e.g. a@x.com,b@y.com)
@@ -29,6 +31,9 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read # needed to read this workflow's previous run conclusion
     steps:
       - uses: actions/checkout@v4
 
@@ -75,8 +80,33 @@ jobs:
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # Only email on a state transition (OK -> FAIL), not once per day while it stays broken.
+      # The previous scheduled run's conclusion is our state - no artifact/cache to expire.
+      - name: Decide whether to notify
+        if: failure() && steps.verify.conclusion == 'failure'
+        id: transition
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          # Manual/dispatch runs (incl. force_fail test) always notify.
+          if [ "$EVENT" != "schedule" ]; then
+            echo "notify=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Non-scheduled run - notifying regardless of previous state."
+            exit 0
+          fi
+          prev=$(gh api "/repos/$REPO/actions/workflows/verify-dam-urls.yml/runs?event=schedule&status=completed&per_page=1" --jq '.workflow_runs[0].conclusion // "none"')
+          echo "previous scheduled run conclusion: $prev"
+          if [ "$prev" = "failure" ]; then
+            echo "notify=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Still failing since the previous scheduled run - suppressing duplicate email."
+          else
+            echo "notify=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Email on failure
-        if: failure() && steps.notify_setup.outputs.ready == 'true'
+        if: failure() && steps.notify_setup.outputs.ready == 'true' && steps.transition.outputs.notify == 'true'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
