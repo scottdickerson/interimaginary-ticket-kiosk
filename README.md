@@ -35,6 +35,22 @@ With the UI (`yarn start`) and API (`node server.js`) running:
 
 To check every DAM link in the CSV at once, run `npm run verify:dam-urls` (`src/data/urlVerifier.js`). The `verify-dam-urls` GitHub Action runs the same check.
 
+### Testing the printer fault state
+
+The ticket machine has a physical fault button labelled **Test**. Press it to put the machine into the fault state, where the kiosk fails over to the digital ticket (the on-screen QR code) instead of printing. Press the **Reset** button to take it out of the fault state.
+
+### Ticket printer debug URLs
+
+With `node server.js` running:
+
+- <http://localhost:3002/> — API index page listing the endpoints, with Arduino wiring pictures.
+- <http://localhost:3002/printer-status> — current printer state as JSON (`{ "printerOk": true }`). Shows `false` while the printer is in the fault state.
+- <http://localhost:3002/printer-status-stream> — live stream (server-sent events) of printer state changes; leave it open while pressing **Test** / **Reset**.
+- <http://localhost:3002/printTicket> — closes the print relay so the machine prints a ticket; the relay releases automatically after a hold.
+- <http://localhost:3002/open> — releases the print relay immediately.
+- <http://localhost:3002/blink> — blinks the Arduino's onboard LED (checks the board is connected).
+- <http://localhost:3002/light> — flashes the kiosk light.
+
 ## Running in your local docker
 
 `docker build -t interimaginary:kiosk .`
