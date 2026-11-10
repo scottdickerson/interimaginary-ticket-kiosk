@@ -25,6 +25,16 @@ Start the Ticket printing API with `node server.js`
 The email address is set from a local environment variable file called `TICKET_EMAIL`. Change the value in the `.env` file to change it.
 If you want to disable the Ticket printing screen set the `TICKET_PRINTER` variable to false
 
+## Validating ticket links and QR codes
+
+With the UI (`yarn start`) and API (`node server.js`) running:
+
+- <http://localhost:3000/ticketdisplay> — the ticket screen with its QR code. Picks a random destination on every load, so refresh to see another.
+- <http://localhost:3002/ticket> — a random ticket as JSON, including the `destinationTicketURL` the QR code encodes.
+- <http://localhost:3002/ticket/Hogwarts> — the ticket for one destination. Use any `Filename` from `src/data/DAM_URLs.csv` without the `.pdf`.
+
+To check every DAM link in the CSV at once, run `npm run verify:dam-urls` (`src/data/urlVerifier.js`). The `verify-dam-urls` GitHub Action runs the same check.
+
 ## Running in your local docker
 
 `docker build -t interimaginary:kiosk .`
